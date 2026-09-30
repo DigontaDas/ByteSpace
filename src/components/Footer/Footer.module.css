@@ -1,0 +1,167 @@
+.footer {
+  background: var(--gray-900);
+  color: var(--white);
+  padding: 60px 0 30px;
+}
+
+.footerContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.footerTop {
+  display: flex;
+  justify-content: space-between;
+  gap: 60px;
+}
+
+.footerBrand {
+  max-width: 340px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.logoText {
+  font-family: var(--font-primary);
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--white);
+}
+
+.brandDesc {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.newsletter {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.emailInput {
+  flex: 1;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  color: var(--white);
+  font-size: 0.85rem;
+}
+
+.emailInput::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.subscribeBtn {
+  background: var(--yellow-accent);
+  color: var(--blue-primary);
+  padding: 10px 24px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: all var(--transition-base);
+}
+
+.subscribeBtn:hover {
+  background: var(--yellow-hover);
+  transform: translateY(-1px);
+}
+
+.privacyNote {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.35);
+  line-height: 1.5;
+}
+
+.footerLinks {
+  display: flex;
+  gap: 60px;
+}
+
+.linkColumn h4 {
+  font-family: var(--font-primary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: var(--white);
+}
+
+.linkColumn ul {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.linkColumn a {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.55);
+  transition: color var(--transition-fast);
+}
+
+.linkColumn a:hover {
+  color: var(--white);
+}
+
+.footerBottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 30px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.copyright {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.legalLinks {
+  display: flex;
+  gap: 24px;
+}
+
+.legalLinks a {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.4);
+  transition: color var(--transition-fast);
+}
+
+.legalLinks a:hover {
+  color: var(--white);
+}
+
+@media (max-width: 900px) {
+  .footerTop {
+    flex-direction: column;
+    gap: 40px;
+  }
+  .footerBrand {
+    max-width: 100%;
+  }
+  .footerLinks {
+    flex-wrap: wrap;
+    gap: 30px;
+  }
+}
+
+@media (max-width: 600px) {
+  .footerBottom {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+  }
+  .legalLinks {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+  }
+}

@@ -1,0 +1,187 @@
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import styles from "../login/login.module.css";
+
+export default function RegisterPage() {
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Handle register logic
+  };
+
+  return (
+    <div className={styles.authPage}>
+      {/* Left Side - Decorative */}
+      <div className={styles.authLeft}>
+        <Link href="/" className={styles.logo}>
+          <svg
+            width="28"
+            height="28"
+            viewBox="0 0 32 32"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect width="32" height="32" rx="8" fill="#D4FF00" />
+            <path
+              d="M8 10C8 8.89543 8.89543 8 10 8H16C19.3137 8 22 10.6863 22 14C22 17.3137 19.3137 20 16 20H12V24H8V10Z"
+              fill="#1400FF"
+            />
+            <circle cx="16" cy="14" r="3" fill="#D4FF00" />
+          </svg>
+        </Link>
+
+        <div className={styles.leftContent}>
+          <h2 className={styles.leftTitle}>Sign up and come in</h2>
+          <p className={styles.leftDesc}>
+            The registration process is straightforward, uncomplicated, and
+            efficient, allowing users to sign up quickly, easily, and at no
+            cost.
+          </p>
+        </div>
+
+        {/* Decorative elements */}
+        <div className={styles.gridBg} />
+        <div className={styles.decoTriangle} />
+        <div className={styles.decoCircle} />
+
+        {/* Floating course card */}
+        <div className={styles.floatingPreview}>
+          <div className={styles.previewImage}>
+            <img
+              src="/images/course-big-data.jpg"
+              alt="Course preview"
+            />
+          </div>
+          <div className={styles.previewContent}>
+            <h4>The Power of Big Data</h4>
+            <div className={styles.previewRating}>
+              4.5
+              <span className={styles.previewStars}>★★★★★</span>
+            </div>
+            <span className={styles.previewPrice}>$25 <s>$50</s></span>
+          </div>
+        </div>
+
+        <div className={styles.floatingStudents}>
+          <span>Happy Students</span>
+          <div className={styles.miniAvatars}>
+            {[1, 2, 3, 4].map((i) => (
+              <div
+                key={i}
+                className={styles.miniAvatar}
+                style={{ background: `hsl(${i * 70 + 200}, 60%, 55%)` }}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Right Side - Form */}
+      <div className={styles.authRight}>
+        <div className={styles.formContainer}>
+          <div className={styles.formHeader}>
+            <span className={styles.formLabel}>Create an Account</span>
+            <h1 className={styles.formTitle}>
+              Welcome to
+              <br />
+              ByteSpace
+            </h1>
+          </div>
+
+          <form onSubmit={handleSubmit} className={styles.form}>
+            <div className={styles.inputGroup}>
+              <label htmlFor="register-name" className={styles.label}>
+                Full Name
+              </label>
+              <input
+                id="register-name"
+                type="text"
+                placeholder="John Doe"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                className={styles.input}
+                required
+              />
+            </div>
+
+            <div className={styles.inputGroup}>
+              <label htmlFor="register-email" className={styles.label}>
+                Email
+              </label>
+              <input
+                id="register-email"
+                type="email"
+                placeholder="designer@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className={styles.input}
+                required
+              />
+            </div>
+
+            <div className={styles.inputGroup}>
+              <label htmlFor="register-password" className={styles.label}>
+                Password
+              </label>
+              <div className={styles.passwordWrapper}>
+                <input
+                  id="register-password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className={styles.input}
+                  required
+                />
+                <button
+                  type="button"
+                  className={styles.togglePassword}
+                  onClick={() => setShowPassword(!showPassword)}
+                  aria-label="Toggle password visibility"
+                >
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    {showPassword ? (
+                      <>
+                        <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94" />
+                        <line x1="1" y1="1" x2="23" y2="23" />
+                      </>
+                    ) : (
+                      <>
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                        <circle cx="12" cy="12" r="3" />
+                      </>
+                    )}
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <button type="submit" className={styles.submitBtn}>
+              Continue
+            </button>
+          </form>
+
+          <p className={styles.switchText} style={{ marginTop: "24px" }}>
+            Already have an account?{" "}
+            <Link href="/login" className={styles.switchLink}>
+              Login
+            </Link>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}

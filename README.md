@@ -1,36 +1,100 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ByteSpace - Online Learning Platform
 
-## Getting Started
+A modern, responsive online course platform built with **Next.js 16**, **TypeScript**, and **CSS Modules**.
 
-First, run the development server:
+![ByteSpace Landing Page](/figma%20design/home.png)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🚀 Live Demo
+
+🔗 [View Live on Vercel](https://bytespace.vercel.app)
+
+## ✨ Features
+
+- **Landing Page** — Complete pixel-perfect implementation from Figma design
+  - Hero section with animated floating cards
+  - Course category filtering
+  - Course cards grid with ratings and pricing
+  - Learning paths showcase
+  - Growth statistics section
+  - Create & Manage courses section
+  - CTA banner for creators
+  - Testimonials from community members
+  - Newsletter subscription footer
+  
+- **Login Page** — Split-layout authentication page
+  - Decorative left panel with grid background and floating previews
+  - Email/password form with validation
+  - Social auth buttons (Facebook, Google)
+  
+- **Register Page** — Account creation page
+  - Matching split-layout design
+  - Full Name, Email, Password fields
+  - Consistent design language
+
+## 🛠️ Tech Stack
+
+| Technology | Purpose |
+|---|---|
+| [Next.js 16](https://nextjs.org) | React framework with App Router |
+| [TypeScript](https://typescriptlang.org) | Type safety |
+| CSS Modules | Scoped, maintainable styling |
+| [Vercel](https://vercel.com) | Deployment & hosting |
+
+## 📁 Project Structure
+
+```
+src/
+├── app/
+│   ├── layout.tsx          # Root layout with metadata
+│   ├── page.tsx            # Landing page
+│   ├── page.module.css     # Landing page styles
+│   ├── globals.css         # Design system & reset
+│   ├── login/
+│   │   ├── page.tsx        # Login page
+│   │   └── login.module.css
+│   └── register/
+│       └── page.tsx        # Register page (reuses login styles)
+├── components/
+│   ├── Navbar/
+│   │   ├── Navbar.tsx      # Responsive navigation
+│   │   └── Navbar.module.css
+│   ├── Footer/
+│   │   ├── Footer.tsx      # Footer with newsletter
+│   │   └── Footer.module.css
+│   └── CourseCard/
+│       ├── CourseCard.tsx   # Reusable course card
+│       └── CourseCard.module.css
+└── public/
+    └── images/             # Course and hero images
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🏃‍♂️ Getting Started
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# Clone the repository
+git clone https://github.com/YOUR_USERNAME/bytespace.git
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Install dependencies
+npm install
 
-## Learn More
+# Run development server
+npm run dev
 
-To learn more about Next.js, take a look at the following resources:
+# Build for production
+npm run build
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Open [http://localhost:3000](http://localhost:3000) to view the app.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📐 Design
 
-## Deploy on Vercel
+The design was created in Figma and faithfully implemented:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Design file**: [ByteSpace Figma Design](https://www.figma.com/design/26TBgRjmpuxudcErJsHUfy/ByteSpace-New-Check-website)
+- **Color palette**: Blue primary (#1400FF), Yellow accent (#D4FF00)
+- **Typography**: Outfit (headings), Inter (body)
+- **Fully responsive**: Desktop, tablet, and mobile breakpoints
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📄 License
+
+This project is for demonstration purposes.
