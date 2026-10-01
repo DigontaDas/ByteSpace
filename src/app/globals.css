@@ -11,10 +11,10 @@
 
 :root {
   /* Primary Colors */
-  --blue-primary: #1400FF;
-  --blue-dark: #0A00CC;
-  --blue-darker: #0D0D3B;
-  --blue-grid: #2020FF;
+  --blue-primary: #003BE2;
+  --blue-dark: #002DB3;
+  --blue-darker: #001C73;
+  --blue-grid: rgba(255, 255, 255, 0.12);
 
   /* Accent Colors */
   --yellow-accent: #D4FF00;

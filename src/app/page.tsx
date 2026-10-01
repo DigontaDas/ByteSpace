@@ -341,32 +341,66 @@ export default function Home() {
       <main>
         {/* ===== HERO SECTION ===== */}
         <section className={styles.hero}>
-          <Hero3DScene />
-          <div className={styles.heroDecorations}>
-            <div className={styles.decoCircle1} />
-            <div className={styles.decoCircle2} />
-            <div className={styles.decoZigzag1}>
-              <svg width="36" height="14" viewBox="0 0 36 14" fill="none">
-                <path d="M2 7C6 2 10 12 14 7C18 2 22 12 26 7C30 2 34 12 34 7" stroke="#D4FF00" strokeWidth="3" strokeLinecap="round" />
-              </svg>
+          {/* Subtle blueprint grid background */}
+          <div className={styles.heroGridBackground} aria-hidden="true" />
+
+          {/* Left Background Space 3D Clay Floating Elements */}
+          <div className={styles.heroLeftElements} aria-hidden="true">
+            <div className={`${styles.floatShape} ${styles.shapeLimeSquiggle}`}>
+              <img
+                src="/assets/hero_shape_lime_squiggle.png"
+                alt=""
+                className={styles.shapeImg}
+              />
             </div>
-            <div className={styles.decoZigzag2}>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="#D4FF00">
-                <path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z" />
-              </svg>
+            <div className={`${styles.floatShape} ${styles.shapeWhiteSquiggle}`}>
+              <img
+                src="/assets/hero_shape_white_squiggle.png"
+                alt=""
+                className={styles.shapeImg}
+              />
             </div>
-            <div className={styles.decoArrow}>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D4FF00" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="7" y1="17" x2="17" y2="7" />
-                <polyline points="7 7 17 7 17 17" />
-              </svg>
+            <div className={`${styles.floatShape} ${styles.shapeWhiteRing}`}>
+              <img
+                src="/assets/hero_shape_white_ring.png"
+                alt=""
+                className={styles.shapeImg}
+              />
             </div>
           </div>
 
-          <div className={`container ${styles.heroContainer}`}>
-            <div className={styles.heroContent}>
+          {/* Right Background Space 3D Clay Floating Elements */}
+          <div className={styles.heroRightElements} aria-hidden="true">
+            <div className={`${styles.floatShape} ${styles.shapeLimeCylinder}`}>
+              <img
+                src="/assets/hero_shape_lime_cylinder.png"
+                alt=""
+                className={styles.shapeImg}
+              />
+            </div>
+            <div className={`${styles.floatShape} ${styles.shapeWhiteTriangle}`}>
+              <img
+                src="/assets/hero_shape_white_triangle.png"
+                alt=""
+                className={styles.shapeImg}
+              />
+            </div>
+            <div className={`${styles.floatShape} ${styles.shapeWhiteSpiral}`}>
+              <img
+                src="/assets/hero_shape_white_spiral.png"
+                alt=""
+                className={styles.shapeImg}
+              />
+            </div>
+          </div>
+
+          <div className={`container ${styles.heroCenteredContainer}`}>
+            {/* Centered Headline & Search */}
+            <div className={styles.heroHeaderBlock}>
               <h1 className={styles.heroTitle}>
-                Get Access to Hundreds Courses Available
+                Get Access to Hundreds
+                <br />
+                Courses Available
               </h1>
               <p className={styles.heroSubtitle}>
                 Unlock your creativity, gain valuable knowledge, and grow your
@@ -380,7 +414,7 @@ export default function Home() {
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
-                  strokeWidth="2"
+                  strokeWidth="2.2"
                 >
                   <circle cx="11" cy="11" r="8" />
                   <line x1="21" y1="21" x2="16.65" y2="16.65" />
@@ -392,49 +426,62 @@ export default function Home() {
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className={styles.searchInput}
                 />
-                <button type="submit" className={styles.searchBtn}>Search</button>
+                <button type="submit" className={styles.searchBtn}>
+                  Search
+                </button>
               </form>
             </div>
 
-            <div className={styles.heroImageWrapper}>
-              <div className={styles.heroImageBg} />
-              <img
-                src="/images/hero-student.jpg"
-                alt="Student learning on ByteSpace"
-                className={styles.heroImage}
-              />
-
-              {/* Floating Cards */}
-              <div className={styles.floatingCard1}>
-                <span className={styles.floatingLabel}>UI/UX Design</span>
-                <span className={styles.floatingDetail}>
-                  Advanced creative course
-                </span>
+            {/* Centered Visual Stage: Lime Arch + Student + Floating Badges */}
+            <div className={styles.heroStageWrapper}>
+              {/* Lime Arch Background Glow */}
+              <div className={styles.heroLimeArch}>
+                <img
+                  src="/assets/hero_lime_arch_official.png"
+                  alt=""
+                  className={styles.limeArchImg}
+                />
               </div>
 
-              <div className={styles.floatingCard2}>
-                <span className={styles.floatingLabel}>Learning Progress</span>
-                <span className={styles.floatingPercent}>55%</span>
+              {/* Student Cutout */}
+              <div className={styles.heroStudentWrap}>
+                <img
+                  src="/assets/hero_student_official.png"
+                  alt="Student with laptop learning on ByteSpace"
+                  className={styles.studentOfficialImg}
+                />
+              </div>
+
+              {/* Floating Badge 1: UI/UX Design */}
+              <div className={`${styles.floatingHeroCard} ${styles.badgeUIUX}`}>
+                <div className={styles.cardHeaderSmall}>UI/UX Design</div>
+                <div className={styles.cardSubSmall}>200 Courses &bull; 1000+ Students</div>
+              </div>
+
+              {/* Floating Badge 2: Learning Progress */}
+              <div className={`${styles.floatingHeroCard} ${styles.badgeProgress}`}>
+                <div className={styles.cardHeaderSmall}>Learning Progress</div>
+                <div className={styles.cardPercentNumber}>55%</div>
                 <div className={styles.progressBar}>
-                  <div
-                    className={styles.progressFill}
-                    style={{ width: "55%" }}
-                  />
+                  <div className={styles.progressFill} style={{ width: "55%" }} />
                 </div>
               </div>
 
-              <div className={styles.floatingCard3}>
-                <span className={styles.floatingLabel}>Happy Students</span>
-                <div className={styles.studentAvatars}>
-                  {[1, 2, 3, 4].map((i) => (
-                    <div
-                      key={i}
-                      className={styles.studentAvatar}
-                      style={{
-                        background: `hsl(${i * 70 + 180}, 65%, 55%)`,
-                      }}
-                    />
-                  ))}
+              {/* Floating Badge 3: Happy Students */}
+              <div className={`${styles.floatingHeroCard} ${styles.badgeStudents}`}>
+                <div className={styles.badgeStudentsTop}>
+                  <span className={styles.cardHeaderSmall}>Happy Students</span>
+                  <span className={styles.badgeRating}>
+                    4.5 (240) <span className={styles.starYellow}>★</span>
+                  </span>
+                </div>
+                <div className={styles.badgeAvatarsRow}>
+                  <img
+                    src="/assets/target_avatars_row.png"
+                    alt="Student avatars"
+                    className={styles.avatarsRowImg}
+                  />
+                  <span className={styles.badgeCountPill}>2K+</span>
                 </div>
               </div>
             </div>
@@ -732,7 +779,30 @@ export default function Home() {
 
         {/* ===== CTA BANNER ===== */}
         <section className={styles.ctaBanner}>
-          <div className="container">
+          <div className={styles.ctaGridBackground} aria-hidden="true" />
+          <div className={styles.ctaDecorations} aria-hidden="true">
+            <img
+              src="/assets/creator_cta_shape_1_lime_coil.png"
+              alt=""
+              className={`${styles.ctaShape} ${styles.ctaShape1}`}
+            />
+            <img
+              src="/assets/creator_cta_shape_2_white_zigzag.png"
+              alt=""
+              className={`${styles.ctaShape} ${styles.ctaShape2}`}
+            />
+            <img
+              src="/assets/creator_cta_shape_3_white_cone.png"
+              alt=""
+              className={`${styles.ctaShape} ${styles.ctaShape3}`}
+            />
+            <img
+              src="/assets/creator_cta_shape_4_lime_torus.png"
+              alt=""
+              className={`${styles.ctaShape} ${styles.ctaShape4}`}
+            />
+          </div>
+          <div className={`container ${styles.ctaContainer}`}>
             <div className={styles.ctaContent}>
               <h2 className={styles.ctaTitle}>
                 Unlock Your Potential as a Creator with ByteSpace
@@ -741,7 +811,8 @@ export default function Home() {
                 Experience the collaboration of numerous creators and an expanding
                 selection of courses. Register now and become a part of a
                 community comprising over 10,000 local and international
-                creators.
+                creators. Utilize our Course Editor, and showcase your expertise by
+                publishing your finest course on the ByteSpace Course Library.
               </p>
               <Link href="/creators" className={styles.ctaBtn}>
                 Join as Creator
