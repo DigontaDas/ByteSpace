@@ -7,7 +7,7 @@ import styles from "./Navbar.module.css";
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { user, signOut, wishlistCourseIds } = useAuth();
+  const { user, signOut, wishlistCourseIds, enrolledCourseIds } = useAuth();
 
   return (
     <nav className={styles.navbar}>
@@ -51,13 +51,19 @@ export default function Navbar() {
         <div className={styles.navActions}>
           {user ? (
             <div className={styles.userProfile}>
-              <div className={styles.userAvatar}>
-                {user.user_metadata?.full_name?.charAt(0).toUpperCase() ||
-                  user.email.charAt(0).toUpperCase()}
-              </div>
-              <span className={styles.userName}>
-                {user.user_metadata?.full_name || user.email.split("@")[0]}
-              </span>
+              <Link
+                href="/profile"
+                className={styles.userProfileLink}
+                title="Go to My Profile & Wishlist"
+              >
+                <div className={styles.userAvatar}>
+                  {user.user_metadata?.full_name?.charAt(0).toUpperCase() ||
+                    user.email.charAt(0).toUpperCase()}
+                </div>
+                <span className={styles.userName}>
+                  {user.user_metadata?.full_name || user.email.split("@")[0]}
+                </span>
+              </Link>
               <button
                 onClick={() => signOut()}
                 className={styles.signOutBtn}
@@ -78,24 +84,22 @@ export default function Navbar() {
           )}
 
           <Link
-            href="/courses"
+            href="/profile?tab=wishlist"
             className={styles.cartBtn}
-            aria-label="Wishlist & Courses"
-            title="Saved & Courses"
+            aria-label="My Wishlist & Learning"
+            title="My Wishlist & Learning"
           >
             <svg
               width="20"
               height="20"
               viewBox="0 0 24 24"
-              fill="none"
+              fill={wishlistCourseIds.length > 0 ? "rgba(212, 255, 0, 0.2)" : "none"}
               stroke="currentColor"
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
             >
-              <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
-              <line x1="3" y1="6" x2="21" y2="6" />
-              <path d="M16 10a4 4 0 01-8 0" />
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
             </svg>
             {wishlistCourseIds.length > 0 && (
               <span className={styles.cartBadge}>
@@ -140,6 +144,27 @@ export default function Navbar() {
           onClick={() => setMobileOpen(false)}
         >
           Creators
+        </Link>
+        <Link
+          href="/profile"
+          className={styles.mobileLink}
+          onClick={() => setMobileOpen(false)}
+        >
+          My Profile
+        </Link>
+        <Link
+          href="/profile?tab=wishlist"
+          className={styles.mobileLink}
+          onClick={() => setMobileOpen(false)}
+        >
+          My Wishlist {wishlistCourseIds.length > 0 ? `(${wishlistCourseIds.length})` : ""}
+        </Link>
+        <Link
+          href="/profile?tab=enrolled"
+          className={styles.mobileLink}
+          onClick={() => setMobileOpen(false)}
+        >
+          My Learning {enrolledCourseIds.length > 0 ? `(${enrolledCourseIds.length})` : ""}
         </Link>
         <div className={styles.mobileDivider} />
         {user ? (

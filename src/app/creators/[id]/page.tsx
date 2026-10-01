@@ -6,6 +6,7 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar/Navbar";
 import Footer from "@/components/Footer/Footer";
 import CourseCard from "@/components/CourseCard/CourseCard";
+import ShareModal from "@/components/ShareModal/ShareModal";
 import { getCreatorById } from "@/data/creators";
 import { getCoursesByAuthorId } from "@/data/courses";
 import styles from "./creator.module.css";
@@ -14,6 +15,7 @@ export default function CreatorProfilePage() {
   const params = useParams();
   const creatorId = params.id as string;
   const [activeTab, setActiveTab] = useState<"products" | "followers">("products");
+  const [isShareOpen, setIsShareOpen] = useState(false);
 
   const creator = getCreatorById(creatorId);
   const creatorCourses = getCoursesByAuthorId(creatorId);
@@ -90,16 +92,33 @@ export default function CreatorProfilePage() {
                 {followersCount} Followers
               </span>
             </div>
-            <button
-              onClick={handleFollowToggle}
-              className={styles.followBtn}
-              style={{
-                background: isFollowing ? "var(--green-accent)" : "var(--yellow-accent)",
-                color: "var(--blue-primary)",
-              }}
-            >
-              {isFollowing ? "Following ✓" : "Follow"}
-            </button>
+            <div className={styles.actionBtns}>
+              <button
+                onClick={handleFollowToggle}
+                className={styles.followBtn}
+                style={{
+                  background: isFollowing ? "var(--green-accent)" : "var(--yellow-accent)",
+                  color: "var(--blue-primary)",
+                }}
+              >
+                {isFollowing ? "Following ✓" : "Follow"}
+              </button>
+
+              <button
+                onClick={() => setIsShareOpen(true)}
+                className={styles.shareCreatorBtn}
+                title="Share Creator Profile"
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="18" cy="5" r="3" />
+                  <circle cx="6" cy="12" r="3" />
+                  <circle cx="18" cy="19" r="3" />
+                  <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+                  <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+                </svg>
+                Share
+              </button>
+            </div>
           </div>
         </div>
       </section>
@@ -169,6 +188,13 @@ export default function CreatorProfilePage() {
           )}
         </div>
       </section>
+
+      <ShareModal
+        isOpen={isShareOpen}
+        onClose={() => setIsShareOpen(false)}
+        title={`${creator.name} — ByteSpace Creator Profile`}
+        description={creator.role + ": " + creator.bio.slice(0, 100)}
+      />
 
       <Footer />
     </>

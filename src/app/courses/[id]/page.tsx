@@ -10,6 +10,7 @@ import { getCreatorById } from "@/data/creators";
 import { getLessonsByCourseId } from "@/data/lessons";
 import { getReviewsByCourseId, getReviewSummaryByCourseId, Review } from "@/data/reviews";
 import { useAuth } from "@/context/AuthContext";
+import ShareModal from "@/components/ShareModal/ShareModal";
 import styles from "./courseDetail.module.css";
 
 type TabType = "about" | "lessons" | "reviews";
@@ -18,6 +19,7 @@ export default function CourseDetailPage() {
   const params = useParams();
   const courseId = params.id as string;
   const [activeTab, setActiveTab] = useState<TabType>("about");
+  const [isShareOpen, setIsShareOpen] = useState(false);
   const { enrolledCourseIds, wishlistCourseIds, enrollCourse, toggleWishlist, user } = useAuth();
 
   const course = getCourseById(courseId);
@@ -80,10 +82,22 @@ export default function CourseDetailPage() {
     }
   };
 
-  const handleShare = () => {
-    if (typeof window !== "undefined") {
-      navigator.clipboard.writeText(window.location.href);
-      showToast("🔗 Link copied to clipboard!");
+  const handleShare = async () => {
+    // If Web Share API is available on mobile/tablet devices, open native sheet; otherwise open custom modal
+    if (typeof navigator !== "undefined" && typeof navigator.share === "function" && window.innerWidth < 768) {
+      try {
+        await navigator.share({
+          title: course ? `${course.title} | ByteSpace` : "ByteSpace Course",
+          text: course?.subtitle || "Check out this course on ByteSpace!",
+          url: window.location.href,
+        });
+        return;
+      } catch {
+        // Fallback to modal if dismissed or failed
+        setIsShareOpen(true);
+      }
+    } else {
+      setIsShareOpen(true);
     }
   };
 
@@ -488,6 +502,13 @@ export default function CourseDetailPage() {
           </div>
         </div>
       </section>
+
+      <ShareModal
+        isOpen={isShareOpen}
+        onClose={() => setIsShareOpen(false)}
+        title={course?.title || "ByteSpace Course"}
+        description={course?.subtitle || course?.description?.slice(0, 120)}
+      />
 
       <Footer />
     </>

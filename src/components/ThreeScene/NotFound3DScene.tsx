@@ -14,12 +14,18 @@ export default function NotFound3DScene() {
     const container = containerRef.current;
     if (!canvas || !container) return;
 
+    let gl: WebGLRenderingContext | WebGL2RenderingContext | null = null;
     try {
-      const gl =
-        canvas.getContext("webgl2") ||
-        canvas.getContext("webgl") ||
-        canvas.getContext("experimental-webgl");
-      if (!gl) {
+      if (typeof window === "undefined" || !window.WebGLRenderingContext) {
+        setIsSupported(false);
+        return;
+      }
+      gl =
+        (canvas.getContext("webgl2", { alpha: true, antialias: true }) as WebGL2RenderingContext) ||
+        (canvas.getContext("webgl", { alpha: true, antialias: true }) as WebGLRenderingContext) ||
+        (canvas.getContext("experimental-webgl", { alpha: true, antialias: true }) as WebGLRenderingContext);
+
+      if (!gl || typeof gl.getShaderPrecisionFormat !== "function") {
         setIsSupported(false);
         return;
       }
@@ -41,6 +47,7 @@ export default function NotFound3DScene() {
     try {
       renderer = new THREE.WebGLRenderer({
         canvas,
+        context: gl,
         alpha: true,
         antialias: true,
         powerPreference: "high-performance",

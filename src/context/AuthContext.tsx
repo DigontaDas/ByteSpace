@@ -29,6 +29,8 @@ interface AuthContextType {
   signOut: () => Promise<void>;
   enrollCourse: (courseId: string) => boolean;
   toggleWishlist: (courseId: string) => boolean;
+  removeFromWishlist: (courseId: string) => void;
+  updateProfile: (data: { full_name?: string; avatar_url?: string }) => Promise<void>;
 }
 
 const DEMO_USER: AuthUser = {
@@ -50,7 +52,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     "build-digital-asset",
   ]);
   const [wishlistCourseIds, setWishlistCourseIds] = useState<string[]>([
-    "learn-figma-basic",
+    "learn-figma-from-basic",
   ]);
 
   // Load local state & Supabase session on mount
@@ -141,6 +143,40 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       localStorage.setItem("bytespace_wishlist", JSON.stringify(updated));
     } catch {}
     return isAdded;
+  };
+
+  const removeFromWishlist = (courseId: string) => {
+    const updated = wishlistCourseIds.filter((id) => id !== courseId);
+    setWishlistCourseIds(updated);
+    try {
+      localStorage.setItem("bytespace_wishlist", JSON.stringify(updated));
+    } catch {}
+  };
+
+  const updateProfile = async (data: { full_name?: string; avatar_url?: string }) => {
+    if (!user) return;
+    try {
+      if (session) {
+        await supabase.auth.updateUser({
+          data: {
+            full_name: data.full_name,
+            avatar_url: data.avatar_url,
+          },
+        });
+      }
+      const updatedUser: AuthUser = {
+        ...user,
+        user_metadata: {
+          ...user.user_metadata,
+          ...(data.full_name !== undefined ? { full_name: data.full_name } : {}),
+          ...(data.avatar_url !== undefined ? { avatar_url: data.avatar_url } : {}),
+        },
+      };
+      setUser(updatedUser);
+      localStorage.setItem("bytespace_demo_user", JSON.stringify(updatedUser));
+    } catch (e) {
+      console.warn("Could not update profile:", e);
+    }
   };
 
   const signIn = async (email: string, password: string) => {
@@ -240,6 +276,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         signOut,
         enrollCourse,
         toggleWishlist,
+        removeFromWishlist,
+        updateProfile,
       }}
     >
       {children}
