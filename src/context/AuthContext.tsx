@@ -48,12 +48,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [enrolledCourseIds, setEnrolledCourseIds] = useState<string[]>([
-    "build-digital-asset",
-  ]);
-  const [wishlistCourseIds, setWishlistCourseIds] = useState<string[]>([
-    "learn-figma-from-basic",
-  ]);
+  const [enrolledCourseIds, setEnrolledCourseIds] = useState<string[]>([]);
+  const [wishlistCourseIds, setWishlistCourseIds] = useState<string[]>([]);
 
   // Load local state & Supabase session on mount
   useEffect(() => {

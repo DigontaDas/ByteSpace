@@ -64,9 +64,39 @@ function CoursesContent() {
 
   return (
     <>
-      {/* Blue Hero Header */}
+      {/* Textured Blue Hero Header */}
       <section className={styles.heroHeader}>
-        <div className="container">
+        <div className={styles.heroGridBackground} aria-hidden="true" />
+        <div className={styles.heroNoiseTexture} aria-hidden="true" />
+
+        {/* Decorative 3D Clay Shapes */}
+        <div className={styles.headerDecorLeft} aria-hidden="true">
+          <img
+            src="/assets/hero_shape_lime_squiggle.png"
+            alt=""
+            className={`${styles.decorShape} ${styles.decorShape1}`}
+          />
+          <img
+            src="/assets/auth_shape_white_zigzag_clean.png"
+            alt=""
+            className={`${styles.decorShape} ${styles.decorShape2}`}
+          />
+        </div>
+
+        <div className={styles.headerDecorRight} aria-hidden="true">
+          <img
+            src="/assets/auth_shape_lime_torus_angled.png"
+            alt=""
+            className={`${styles.decorShape} ${styles.decorShape3}`}
+          />
+          <img
+            src="/assets/hero_shape_white_triangle.png"
+            alt=""
+            className={`${styles.decorShape} ${styles.decorShape4}`}
+          />
+        </div>
+
+        <div className={`container ${styles.headerContainer}`}>
           <h1 className={styles.heroTitle}>Find Your Next Course</h1>
           <div className={styles.searchRow}>
             <div className={styles.searchBar}>

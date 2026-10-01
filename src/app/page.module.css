@@ -8,8 +8,13 @@
     linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
   background-size: 100% 100%, 100px 100px, 100px 100px;
   background-position: center center, center top, center top;
-  padding: 120px 0 0;
+  height: 100vh;
+  min-height: 700px;
+  max-height: 1100px;
+  padding: 80px 0 0;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .heroGridBackground {
@@ -133,6 +138,8 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
+  flex: 1;
+  justify-content: center;
 }
 
 .heroHeaderBlock {
@@ -145,20 +152,20 @@
 
 .heroTitle {
   font-family: var(--font-primary);
-  font-size: 3.8rem;
+  font-size: clamp(2.4rem, 4vw, 3.6rem);
   font-weight: 800;
   color: var(--white);
   line-height: 1.12;
-  margin-bottom: 18px;
+  margin-bottom: 12px;
   letter-spacing: -0.035em;
   text-shadow: 0 4px 20px rgba(0, 20, 100, 0.25);
 }
 
 .heroSubtitle {
-  font-size: 1.05rem;
+  font-size: 1rem;
   color: rgba(255, 255, 255, 0.88);
-  line-height: 1.65;
-  margin-bottom: 30px;
+  line-height: 1.6;
+  margin-bottom: 20px;
   max-width: 660px;
 }
 
@@ -172,7 +179,7 @@
   max-width: 500px;
   box-shadow: 0 12px 36px rgba(0, 15, 80, 0.28), 0 2px 6px rgba(0, 0, 0, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.95);
-  margin-bottom: 36px;
+  margin-bottom: 16px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -225,8 +232,10 @@
   position: relative;
   width: 100%;
   max-width: 1260px;
-  height: 640px;
-  margin-top: 10px;
+  flex: 1;
+  min-height: 320px;
+  max-height: calc(100vh - 300px);
+  margin-top: 0;
   display: flex;
   justify-content: center;
   align-items: flex-end;
@@ -253,7 +262,7 @@
 .heroStudentWrap {
   position: relative;
   z-index: 2;
-  width: 700px;
+  width: clamp(340px, 50vw, 700px);
   max-width: 86vw;
   margin-bottom: 0;
   pointer-events: none;
@@ -1184,8 +1193,10 @@
 
 @media (max-width: 1024px) {
   .hero {
-    padding: 110px 0 0;
-    min-height: 820px;
+    height: auto;
+    min-height: auto;
+    max-height: none;
+    padding: 100px 0 0;
   }
   .heroTitle {
     font-size: 2.8rem;
@@ -1198,6 +1209,8 @@
     display: none;
   }
   .heroStageWrapper {
+    max-height: none;
+    flex: none;
     height: 520px;
     max-width: 860px;
   }
@@ -1244,8 +1257,10 @@
 
 @media (max-width: 768px) {
   .hero {
-    padding: 95px 0 0;
-    min-height: 660px;
+    height: auto;
+    min-height: auto;
+    max-height: none;
+    padding: 85px 0 0;
     overflow-x: hidden;
   }
   .heroTitle {
@@ -1254,29 +1269,32 @@
   }
   .heroSubtitle {
     font-size: 0.9rem;
-    margin-bottom: 24px;
+    margin-bottom: 18px;
     padding: 0 16px;
   }
   .searchBar {
     max-width: 92%;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
   }
   .heroLeftElements,
   .heroRightElements {
     display: none;
   }
   .heroStageWrapper {
-    max-width: 440px;
-    height: 400px;
-    margin: 15px auto 0;
+    max-width: 100%;
+    max-height: none;
+    flex: none;
+    height: 500px;
+    margin: 10px auto 0;
     position: relative;
   }
   .heroLimeArch {
-    width: 420px;
+    width: 480px;
     max-width: 96vw;
   }
   .heroStudentWrap {
-    width: 300px;
+    width: 380px;
+    max-width: 85vw;
   }
   .badgeUIUX {
     left: 2px;
@@ -1319,8 +1337,7 @@
 
 @media (max-width: 480px) {
   .hero {
-    padding: 85px 0 0;
-    min-height: 550px;
+    padding: 75px 0 0;
     overflow-x: hidden;
   }
   .heroTitle {
@@ -1330,7 +1347,7 @@
   }
   .heroSubtitle {
     font-size: 0.85rem;
-    margin-bottom: 20px;
+    margin-bottom: 14px;
     padding: 0 12px;
   }
   .searchBar {
@@ -1341,32 +1358,33 @@
     font-size: 0.88rem;
   }
   .heroStageWrapper {
-    max-width: 340px;
-    height: 350px;
-    margin: 10px auto 0;
+    max-width: 100%;
+    height: 420px;
+    margin: 8px auto 0;
     position: relative;
   }
   .heroLimeArch {
-    width: 320px;
+    width: 380px;
     max-width: 96vw;
   }
   .heroStudentWrap {
-    width: 240px;
+    width: 320px;
+    max-width: 85vw;
   }
   .badgeUIUX {
-    left: 0;
-    top: 20px;
+    left: 4px;
+    top: 15px;
     width: 115px;
   }
   .badgeProgress {
-    right: 0;
+    right: 4px;
     left: auto;
-    top: 32px;
+    top: 25px;
     width: 125px;
   }
   .badgeStudents {
     left: 4px;
-    bottom: 15px;
+    bottom: 10px;
     width: 145px;
   }
   .courseGrid {
