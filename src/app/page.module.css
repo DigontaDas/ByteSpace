@@ -224,9 +224,9 @@
 .heroStageWrapper {
   position: relative;
   width: 100%;
-  max-width: 680px;
-  height: 480px;
-  margin-top: 6px;
+  max-width: 1260px;
+  height: 640px;
+  margin-top: 10px;
   display: flex;
   justify-content: center;
   align-items: flex-end;
@@ -237,7 +237,8 @@
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 580px;
+  width: 1080px;
+  max-width: 95vw;
   z-index: 1;
   pointer-events: none;
 }
@@ -246,135 +247,85 @@
   width: 100%;
   height: auto;
   display: block;
+  filter: drop-shadow(0 20px 60px rgba(199, 255, 0, 0.25));
 }
 
 .heroStudentWrap {
   position: relative;
   z-index: 2;
-  width: 440px;
-  max-width: 90%;
-  margin-bottom: -4px;
+  width: 700px;
+  max-width: 86vw;
+  margin-bottom: 0;
+  pointer-events: none;
 }
 
 .studentOfficialImg {
   width: 100%;
   height: auto;
   display: block;
-  filter: drop-shadow(0 20px 35px rgba(0, 10, 60, 0.3));
 }
 
-/* Floating Badges on Hero Stage */
+/* Floating Badges on Hero Stage - Interactive & Exact Match */
 .floatingHeroCard {
   position: absolute;
-  background: rgba(255, 255, 255, 0.96);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-radius: 16px;
-  padding: 14px 18px;
-  box-shadow: 0 16px 36px -6px rgba(0, 20, 90, 0.28), 0 4px 10px rgba(0, 0, 0, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  z-index: 3;
-  text-align: left;
+  z-index: 10;
+  cursor: pointer;
+  text-decoration: none;
+  display: block;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+  border-radius: 18px;
+  box-shadow: 0 16px 36px rgba(7, 18, 67, 0.22);
   will-change: transform;
 }
 
+.floatingHeroCard:hover {
+  transform: translateY(-8px) scale(1.04);
+  box-shadow: 0 24px 48px rgba(7, 18, 67, 0.34);
+}
+
+.cardOfficialImg {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 18px;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
 .badgeUIUX {
-  top: 18%;
-  left: -20px;
+  left: calc(50% - 370px);
+  top: 125px;
+  width: 208px;
   animation: floatCard1 4.5s ease-in-out infinite;
 }
 
 .badgeProgress {
-  top: 22%;
-  right: -20px;
-  min-width: 170px;
+  left: calc(50% + 145px);
+  top: 140px;
+  width: 232px;
   animation: floatCard2 5s ease-in-out infinite 0.7s;
 }
 
 .badgeStudents {
-  bottom: 24%;
-  left: -40px;
+  left: calc(50% - 395px);
+  bottom: 45px;
+  width: 258px;
   animation: floatCard3 4.8s ease-in-out infinite 1.3s;
 }
 
 @keyframes floatCard1 {
-  0%, 100% { transform: translateY(0px) rotate(-1deg); }
-  50% { transform: translateY(-9px) rotate(1deg); }
+  0%, 100% { transform: translateY(0px) rotate(-0.5deg); }
+  50% { transform: translateY(-8px) rotate(0.5deg); }
 }
 
 @keyframes floatCard2 {
-  0%, 100% { transform: translateY(0px) rotate(1deg); }
-  50% { transform: translateY(-10px) rotate(-1deg); }
+  0%, 100% { transform: translateY(0px) rotate(0.5deg); }
+  50% { transform: translateY(-9px) rotate(-0.5deg); }
 }
 
 @keyframes floatCard3 {
-  0%, 100% { transform: translateY(0px) rotate(-1.5deg); }
-  50% { transform: translateY(-8px) rotate(1deg); }
-}
-
-.cardHeaderSmall {
-  font-family: var(--font-primary);
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: #0F172A;
-  margin-bottom: 2px;
-}
-
-.cardSubSmall {
-  font-size: 0.72rem;
-  font-weight: 500;
-  color: #64748B;
-}
-
-.cardPercentNumber {
-  font-family: var(--font-primary);
-  font-size: 1.6rem;
-  font-weight: 800;
-  color: var(--blue-primary);
-  line-height: 1;
-  margin: 4px 0 6px;
-}
-
-.badgeStudentsTop {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 6px;
-}
-
-.badgeRating {
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: #0F172A;
-  display: flex;
-  align-items: center;
-  gap: 3px;
-}
-
-.starYellow {
-  color: #FBBF24;
-}
-
-.badgeAvatarsRow {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.avatarsRowImg {
-  height: 26px;
-  width: auto;
-  border-radius: 999px;
-}
-
-.badgeCountPill {
-  font-size: 0.7rem;
-  font-weight: 800;
-  color: #061957;
-  background: var(--yellow-accent);
-  padding: 2px 7px;
-  border-radius: 999px;
+  0%, 100% { transform: translateY(0px) rotate(-0.8deg); }
+  50% { transform: translateY(-7px) rotate(0.5deg); }
 }
 
 /* ===== WATER FLOATING SPONSOR SLIDER ===== */
@@ -1234,7 +1185,7 @@
 @media (max-width: 1024px) {
   .hero {
     padding: 110px 0 0;
-    min-height: 760px;
+    min-height: 820px;
   }
   .heroTitle {
     font-size: 2.8rem;
@@ -1244,7 +1195,32 @@
   }
   .heroLeftElements,
   .heroRightElements {
-    opacity: 0.6;
+    display: none;
+  }
+  .heroStageWrapper {
+    height: 520px;
+    max-width: 860px;
+  }
+  .heroLimeArch {
+    width: 760px;
+  }
+  .heroStudentWrap {
+    width: 510px;
+  }
+  .badgeUIUX {
+    left: calc(50% - 275px);
+    top: 95px;
+    width: 170px;
+  }
+  .badgeProgress {
+    left: calc(50% + 105px);
+    top: 105px;
+    width: 185px;
+  }
+  .badgeStudents {
+    left: calc(50% - 290px);
+    bottom: 30px;
+    width: 215px;
   }
   .growthContainer,
   .createManageContainer {
@@ -1269,17 +1245,20 @@
 @media (max-width: 768px) {
   .hero {
     padding: 95px 0 0;
-    min-height: 640px;
+    min-height: 660px;
+    overflow-x: hidden;
   }
   .heroTitle {
     font-size: 2.2rem;
+    padding: 0 12px;
   }
   .heroSubtitle {
-    font-size: 0.88rem;
+    font-size: 0.9rem;
     margin-bottom: 24px;
+    padding: 0 16px;
   }
   .searchBar {
-    max-width: 100%;
+    max-width: 92%;
     margin-bottom: 24px;
   }
   .heroLeftElements,
@@ -1287,31 +1266,33 @@
     display: none;
   }
   .heroStageWrapper {
-    max-width: 480px;
-    height: 340px;
+    max-width: 440px;
+    height: 400px;
+    margin: 15px auto 0;
+    position: relative;
   }
   .heroLimeArch {
-    width: 400px;
+    width: 420px;
+    max-width: 96vw;
   }
   .heroStudentWrap {
     width: 300px;
   }
   .badgeUIUX {
-    top: 5%;
-    left: -10px;
-    padding: 8px 12px;
+    left: 2px;
+    top: 30px;
+    width: 135px;
   }
   .badgeProgress {
-    top: 10%;
-    right: -10px;
-    min-width: 130px;
-    padding: 8px 12px;
+    right: 2px;
+    left: auto;
+    top: 45px;
+    width: 145px;
   }
   .badgeStudents {
-    display: none;
-  }
-  .cardPercentNumber {
-    font-size: 1.2rem;
+    left: 6px;
+    bottom: 20px;
+    width: 165px;
   }
   .sectionTitle {
     font-size: 1.7rem;
@@ -1339,24 +1320,54 @@
 @media (max-width: 480px) {
   .hero {
     padding: 85px 0 0;
-    min-height: 520px;
+    min-height: 550px;
+    overflow-x: hidden;
   }
   .heroTitle {
-    font-size: 1.8rem;
+    font-size: 1.85rem;
+    line-height: 1.15;
+    padding: 0 8px;
+  }
+  .heroSubtitle {
+    font-size: 0.85rem;
+    margin-bottom: 20px;
+    padding: 0 12px;
+  }
+  .searchBar {
+    padding: 5px 6px 5px 14px;
+  }
+  .searchBtn {
+    padding: 10px 20px;
+    font-size: 0.88rem;
   }
   .heroStageWrapper {
-    max-width: 320px;
-    height: 240px;
+    max-width: 340px;
+    height: 350px;
+    margin: 10px auto 0;
+    position: relative;
   }
   .heroLimeArch {
-    width: 280px;
+    width: 320px;
+    max-width: 96vw;
   }
   .heroStudentWrap {
-    width: 220px;
+    width: 240px;
   }
-  .badgeUIUX,
+  .badgeUIUX {
+    left: 0;
+    top: 20px;
+    width: 115px;
+  }
   .badgeProgress {
-    display: none;
+    right: 0;
+    left: auto;
+    top: 32px;
+    width: 125px;
+  }
+  .badgeStudents {
+    left: 4px;
+    bottom: 15px;
+    width: 145px;
   }
   .courseGrid {
     grid-template-columns: 1fr;

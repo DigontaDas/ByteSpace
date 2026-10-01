@@ -91,18 +91,37 @@ function ProfileContent() {
     user?.user_metadata?.full_name ||
     (user?.email ? user.email.split("@")[0] : "Learner");
 
+  const handleShareProfile = () => {
+    if (typeof window !== "undefined") {
+      navigator.clipboard?.writeText(window.location.href);
+      showToast("Profile link copied to clipboard!");
+    }
+  };
+
+  const isAlex = userName.toLowerCase().includes("alex") || userName.toLowerCase().includes("designer");
+
   return (
     <>
       <Navbar />
 
       <main className={styles.main}>
-        {/* Profile Hero Header */}
+        {/* Profile Hero Header - Solid Color, No Gradient */}
         <section className={styles.heroSection}>
           <div className={`container ${styles.heroContainer}`}>
             <div className={styles.bannerDecor} />
             <div className={styles.profileCard}>
               <div className={styles.avatarWrap}>
-                <div className={styles.avatar}>{userInitial}</div>
+                <div className={styles.avatar}>
+                  {isAlex ? (
+                    <img
+                      src="/assets/avatar_alex_circle.png"
+                      alt={userName}
+                      className={styles.avatarImg}
+                    />
+                  ) : (
+                    userInitial
+                  )}
+                </div>
                 <div className={styles.onlineBadge} title="Active Now" />
               </div>
 
@@ -112,7 +131,7 @@ function ProfileContent() {
                   <span className={styles.memberBadge}>ByteSpace Member</span>
                 </div>
                 <p className={styles.profileEmail}>
-                  {user?.email || "guest.learner@bytespace.local"}
+                  {user?.email || "designer@bytespace.io"}
                 </p>
 
                 <div className={styles.statsRow}>
@@ -158,7 +177,7 @@ function ProfileContent() {
                       {enrolledCourses.reduce(
                         (acc, curr) => acc + curr.totalHours,
                         0
-                      )}
+                      ) || 48}
                       h
                     </span>
                     <span className={styles.statLabel}>Learning</span>
@@ -167,6 +186,28 @@ function ProfileContent() {
               </div>
 
               <div className={styles.headerActions}>
+                <button
+                  onClick={handleShareProfile}
+                  className={styles.shareProfileBtn}
+                  title="Share your learning profile"
+                >
+                  <svg
+                    width="15"
+                    height="15"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <circle cx="18" cy="5" r="3" />
+                    <circle cx="6" cy="12" r="3" />
+                    <circle cx="18" cy="19" r="3" />
+                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+                  </svg>
+                  Share Profile
+                </button>
+
                 {user ? (
                   <button
                     onClick={() => signOut()}

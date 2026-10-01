@@ -452,38 +452,44 @@ export default function Home() {
                 />
               </div>
 
-              {/* Floating Badge 1: UI/UX Design */}
-              <div className={`${styles.floatingHeroCard} ${styles.badgeUIUX}`}>
-                <div className={styles.cardHeaderSmall}>UI/UX Design</div>
-                <div className={styles.cardSubSmall}>200 Courses &bull; 1000+ Students</div>
-              </div>
+              {/* Floating Badge 1: UI/UX Design -> Leads to UI/UX courses */}
+              <Link
+                href="/courses?category=UI%2FUX+Design"
+                className={`${styles.floatingHeroCard} ${styles.badgeUIUX}`}
+                title="Browse 200+ UI/UX Design Courses"
+              >
+                <img
+                  src="/assets/hero_card_uiux_design.png"
+                  alt="UI/UX Design - 200 Courses, 1000+ Students"
+                  className={styles.cardOfficialImg}
+                />
+              </Link>
 
-              {/* Floating Badge 2: Learning Progress */}
-              <div className={`${styles.floatingHeroCard} ${styles.badgeProgress}`}>
-                <div className={styles.cardHeaderSmall}>Learning Progress</div>
-                <div className={styles.cardPercentNumber}>55%</div>
-                <div className={styles.progressBar}>
-                  <div className={styles.progressFill} style={{ width: "55%" }} />
-                </div>
-              </div>
+              {/* Floating Badge 2: Learning Progress -> Leads to Enrolled Profile */}
+              <Link
+                href="/profile?tab=enrolled"
+                className={`${styles.floatingHeroCard} ${styles.badgeProgress}`}
+                title="View your Enrolled Course Progress"
+              >
+                <img
+                  src="/assets/hero_card_learning_progress.png"
+                  alt="Learning Progress - 55%"
+                  className={styles.cardOfficialImg}
+                />
+              </Link>
 
-              {/* Floating Badge 3: Happy Students */}
-              <div className={`${styles.floatingHeroCard} ${styles.badgeStudents}`}>
-                <div className={styles.badgeStudentsTop}>
-                  <span className={styles.cardHeaderSmall}>Happy Students</span>
-                  <span className={styles.badgeRating}>
-                    4.5 (240) <span className={styles.starYellow}>★</span>
-                  </span>
-                </div>
-                <div className={styles.badgeAvatarsRow}>
-                  <img
-                    src="/assets/target_avatars_row.png"
-                    alt="Student avatars"
-                    className={styles.avatarsRowImg}
-                  />
-                  <span className={styles.badgeCountPill}>2K+</span>
-                </div>
-              </div>
+              {/* Floating Badge 3: Happy Students -> Leads to Testimonials / Reviews */}
+              <Link
+                href="#testimonials"
+                className={`${styles.floatingHeroCard} ${styles.badgeStudents}`}
+                title="Read Happy Student Reviews & Testimonials"
+              >
+                <img
+                  src="/assets/hero_card_happy_students.png"
+                  alt="Happy Students - 4.5 (240) ★ - 2K+"
+                  className={styles.cardOfficialImg}
+                />
+              </Link>
             </div>
           </div>
         </section>
@@ -524,9 +530,11 @@ export default function Home() {
           <div className={styles.waterMarqueeContainer}>
             <div className={styles.waterTrack}>
               {[...SPONSORS, ...SPONSORS].map((sponsor, idx) => (
-                <div
+                <Link
                   key={`${sponsor.name}-${idx}`}
+                  href={`/courses?q=${encodeURIComponent(sponsor.name)}`}
                   className={styles.waterFloatingCard}
+                  title={`View courses and workshops featuring ${sponsor.name}`}
                   style={
                     {
                       "--float-delay": `${(idx % 8) * -0.62}s`,
@@ -557,7 +565,7 @@ export default function Home() {
                     <span className={styles.sponsorTier}>{sponsor.tier}</span>
                   </div>
                   <div className={styles.waterBuoyantShadow} />
-                </div>
+                </Link>
               ))}
             </div>
           </div>
@@ -691,7 +699,11 @@ export default function Home() {
                 alt="Course preview"
                 className={styles.growthImage}
               />
-              <div className={styles.growthFloatingCard}>
+              <Link
+                href="/courses/1"
+                className={styles.growthFloatingCard}
+                title="View Figma Masterclass Course"
+              >
                 <span className={styles.growthCardLabel}>Learn Figma fr...</span>
                 <div className={styles.growthProgressRow}>
                   <span>Learning Progress</span>
@@ -704,7 +716,7 @@ export default function Home() {
                   />
                 </div>
                 <span className={styles.growthPrice}>$25 <s>$50</s></span>
-              </div>
+              </Link>
             </div>
           </div>
         </section>
@@ -718,16 +730,24 @@ export default function Home() {
                 alt="Create and manage courses"
                 className={styles.manageImg}
               />
-              <div className={styles.revenueCard}>
+              <Link
+                href="/creators"
+                className={styles.revenueCard}
+                title="Explore Creator Studio & Earnings"
+              >
                 <div className={styles.revenueRow}>
                   <span className={styles.revenueLabel}>Total Revenue</span>
                   <span className={styles.revenueAmount}>$120.28</span>
                 </div>
-              </div>
-              <div className={styles.yearlySalesCard}>
+              </Link>
+              <Link
+                href="/creators"
+                className={styles.yearlySalesCard}
+                title="Explore Creator Studio & Earnings"
+              >
                 <span className={styles.revenueLabel}>Year to Date</span>
                 <span className={styles.revenueAmount}>$1,200.38</span>
-              </div>
+              </Link>
             </div>
 
             <div className={styles.createManageContent}>
