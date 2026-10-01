@@ -1,0 +1,22 @@
+.sceneContainer {
+  width: 280px;
+  height: 280px;
+  margin: 0 auto 20px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+@media (max-width: 600px) {
+  .sceneContainer {
+    width: 220px;
+    height: 220px;
+  }
+}
