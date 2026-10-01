@@ -3,10 +3,7 @@
 A modern, production-grade online course platform built with **Next.js 16 (App Router)**, **TypeScript**, **Three.js**, **Supabase**, and **Vanilla CSS Modules**.
 
 
-##  Live Demo & Links
 
-
-- **Deployment**: [ByteSpace on Vercel](https://bytespace-learning.vercel.app)
 
 ---
 
