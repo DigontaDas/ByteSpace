@@ -135,6 +135,23 @@
   font-weight: 600;
 }
 
+.statSvgIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background: rgba(20, 0, 255, 0.08);
+  color: #1400ff;
+  transition: all 0.2s ease;
+}
+
+.statPillActive .statSvgIcon {
+  background: #1400ff;
+  color: #ffffff;
+}
+
 .statIcon {
   font-size: 1rem;
 }

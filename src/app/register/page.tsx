@@ -90,7 +90,13 @@ export default function RegisterPage() {
             <h4>The Power of Big Data</h4>
             <div className={styles.previewRating}>
               4.5
-              <span className={styles.previewStars}>★★★★★</span>
+              <span className={styles.previewStars}>
+                {[1, 2, 3, 4, 5].map((s) => (
+                  <svg key={s} width="12" height="12" viewBox="0 0 24 24" fill="#FFB800" stroke="#FFB800" strokeWidth="1">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                  </svg>
+                ))}
+              </span>
             </div>
             <span className={styles.previewPrice}>$25 <s>$50</s></span>
           </div>
@@ -124,13 +130,21 @@ export default function RegisterPage() {
 
           {errorMessage && (
             <div className={styles.errorBanner}>
-              ⚠️ {errorMessage}
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="8" x2="12" y2="12" />
+                <line x1="12" y1="16" x2="12.01" y2="16" />
+              </svg>
+              <span>{errorMessage}</span>
             </div>
           )}
 
           {successMessage && (
             <div className={styles.successBanner}>
-              ✓ {successMessage}
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+              <span>{successMessage}</span>
             </div>
           )}
 

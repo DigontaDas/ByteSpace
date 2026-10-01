@@ -30,14 +30,25 @@ export default function ErrorBoundary({
           textAlign: "center",
         }}
       >
-        <span
+        <div
           style={{
-            fontSize: "3rem",
-            marginBottom: "16px",
+            width: "64px",
+            height: "64px",
+            borderRadius: "20px",
+            background: "rgba(20, 0, 255, 0.08)",
+            color: "#1400FF",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            marginBottom: "20px",
           }}
         >
-          ⚡
-        </span>
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
+        </div>
         <h1
           style={{
             fontFamily: "var(--font-primary)",

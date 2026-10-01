@@ -64,7 +64,7 @@ function ProfileContent() {
 
   const handleEnrollFromWishlist = (courseId: string, courseTitle: string) => {
     enrollCourse(courseId);
-    showToast(`🎉 Enrolled in "${courseTitle}"!`);
+    showToast(`Enrolled in "${courseTitle}"`);
   };
 
   const handleRemoveWishlist = (courseId: string, courseTitle: string) => {
@@ -77,7 +77,7 @@ function ProfileContent() {
     if (!fullName.trim()) return;
     await updateProfile({ full_name: fullName.trim() });
     setSaveSuccess(true);
-    showToast("✓ Profile updated successfully!");
+    showToast("Profile credentials updated successfully");
     setTimeout(() => setSaveSuccess(false), 2500);
   };
 
@@ -120,7 +120,11 @@ function ProfileContent() {
                     className={`${styles.statPill} ${activeTab === "wishlist" ? styles.statPillActive : ""}`}
                     onClick={() => setActiveTab("wishlist")}
                   >
-                    <span className={styles.statIcon}>❤️</span>
+                    <span className={styles.statSvgIcon}>
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                      </svg>
+                    </span>
                     <span className={styles.statCount}>
                       {wishlistCourseIds.length}
                     </span>
@@ -131,7 +135,12 @@ function ProfileContent() {
                     className={`${styles.statPill} ${activeTab === "enrolled" ? styles.statPillActive : ""}`}
                     onClick={() => setActiveTab("enrolled")}
                   >
-                    <span className={styles.statIcon}>📚</span>
+                    <span className={styles.statSvgIcon}>
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                      </svg>
+                    </span>
                     <span className={styles.statCount}>
                       {enrolledCourseIds.length}
                     </span>
@@ -139,7 +148,12 @@ function ProfileContent() {
                   </div>
 
                   <div className={styles.statPill}>
-                    <span className={styles.statIcon}>⚡</span>
+                    <span className={styles.statSvgIcon}>
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                      </svg>
+                    </span>
                     <span className={styles.statCount}>
                       {enrolledCourses.reduce(
                         (acc, curr) => acc + curr.totalHours,
@@ -345,7 +359,10 @@ function ProfileContent() {
                             <div className={styles.cardMetaRow}>
                               <span className={styles.levelTag}>{c.level}</span>
                               <span className={styles.ratingTag}>
-                                ★ {c.rating} ({c.reviewCount})
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="#FFB800" stroke="#FFB800" strokeWidth="1">
+                                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                                </svg>
+                                {c.rating} ({c.reviewCount})
                               </span>
                             </div>
 
@@ -614,7 +631,16 @@ function ProfileContent() {
 
                     <div className={styles.formActions}>
                       <button type="submit" className={styles.saveBtn}>
-                        {saveSuccess ? "✓ Changes Saved!" : "Save Profile"}
+                        {saveSuccess ? (
+                          <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                              <polyline points="20 6 9 17 4 12" />
+                            </svg>
+                            Changes Saved
+                          </span>
+                        ) : (
+                          "Save Profile"
+                        )}
                       </button>
                     </div>
                   </form>

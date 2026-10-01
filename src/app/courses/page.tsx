@@ -97,9 +97,15 @@ function CoursesContent() {
                     cursor: "pointer",
                     padding: "0 8px",
                     color: "#888",
+                    display: "flex",
+                    alignItems: "center",
                   }}
+                  aria-label="Clear search query"
                 >
-                  ✕
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                  </svg>
                 </button>
               )}
             </div>
@@ -140,7 +146,13 @@ function CoursesContent() {
                   className={styles.filterBtn}
                   style={{ color: "#ff4757", borderColor: "#ff4757" }}
                 >
-                  Clear Filters ✕
+                  <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+                    Clear Filters
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                      <line x1="18" y1="6" x2="6" y2="18" />
+                      <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                  </span>
                 </button>
               )}
             </div>

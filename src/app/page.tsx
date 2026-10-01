@@ -210,9 +210,22 @@ export default function Home() {
           <div className={styles.heroDecorations}>
             <div className={styles.decoCircle1} />
             <div className={styles.decoCircle2} />
-            <div className={styles.decoZigzag1}>〰️</div>
-            <div className={styles.decoZigzag2}>✦</div>
-            <div className={styles.decoArrow}>↗</div>
+            <div className={styles.decoZigzag1}>
+              <svg width="36" height="14" viewBox="0 0 36 14" fill="none">
+                <path d="M2 7C6 2 10 12 14 7C18 2 22 12 26 7C30 2 34 12 34 7" stroke="#D4FF00" strokeWidth="3" strokeLinecap="round" />
+              </svg>
+            </div>
+            <div className={styles.decoZigzag2}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="#D4FF00">
+                <path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z" />
+              </svg>
+            </div>
+            <div className={styles.decoArrow}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D4FF00" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="7" y1="17" x2="17" y2="7" />
+                <polyline points="7 7 17 7 17 17" />
+              </svg>
+            </div>
           </div>
 
           <div className={`container ${styles.heroContainer}`}>
@@ -491,19 +504,36 @@ export default function Home() {
               </p>
               <ul className={styles.featureList}>
                 <li>
-                  <span className={styles.checkIcon}>✓</span> Share Your
-                  Expertise
+                  <span className={styles.checkIcon}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </span>
+                  Share Your Expertise
                 </li>
                 <li>
-                  <span className={styles.checkIcon}>✓</span> Monetize Your
-                  Passion
+                  <span className={styles.checkIcon}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </span>
+                  Monetize Your Passion
                 </li>
                 <li>
-                  <span className={styles.checkIcon}>✓</span> Flexibility and
-                  Autonomy
+                  <span className={styles.checkIcon}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </span>
+                  Flexibility and Autonomy
                 </li>
                 <li>
-                  <span className={styles.checkIcon}>✓</span> Build a Community
+                  <span className={styles.checkIcon}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </span>
+                  Build a Community
                 </li>
               </ul>
             </div>
