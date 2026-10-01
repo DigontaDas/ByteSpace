@@ -18,6 +18,19 @@ export default function CreatorProfilePage() {
   const creator = getCreatorById(creatorId);
   const creatorCourses = getCoursesByAuthorId(creatorId);
 
+  const [isFollowing, setIsFollowing] = useState(false);
+  const [followersCount, setFollowersCount] = useState(creator?.followerCount || 235);
+
+  const handleFollowToggle = () => {
+    if (isFollowing) {
+      setIsFollowing(false);
+      setFollowersCount((prev) => prev - 1);
+    } else {
+      setIsFollowing(true);
+      setFollowersCount((prev) => prev + 1);
+    }
+  };
+
   if (!creator) {
     return (
       <>
@@ -74,10 +87,19 @@ export default function CreatorProfilePage() {
                   <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
                   <circle cx="9" cy="7" r="4" />
                 </svg>
-                {creator.followerCount} Followers
+                {followersCount} Followers
               </span>
             </div>
-            <button className={styles.followBtn}>Follow</button>
+            <button
+              onClick={handleFollowToggle}
+              className={styles.followBtn}
+              style={{
+                background: isFollowing ? "var(--green-accent)" : "var(--yellow-accent)",
+                color: "var(--blue-primary)",
+              }}
+            >
+              {isFollowing ? "Following ✓" : "Follow"}
+            </button>
           </div>
         </div>
       </section>
@@ -128,18 +150,18 @@ export default function CreatorProfilePage() {
         <div className="container">
           <div className={styles.courseGrid}>
             {creatorCourses.map((course) => (
-              <Link key={course.id} href={`/courses/${course.id}`} className={styles.courseLink}>
-                <CourseCard
-                  title={course.title}
-                  author={course.author}
-                  image={course.image}
-                  rating={course.rating}
-                  price={course.price}
-                  originalPrice={course.originalPrice}
-                  level={course.level}
-                  badges={course.badges}
-                />
-              </Link>
+              <CourseCard
+                key={course.id}
+                id={course.id}
+                title={course.title}
+                author={course.author}
+                image={course.image}
+                rating={course.rating}
+                price={course.price}
+                originalPrice={course.originalPrice}
+                level={course.level}
+                badges={course.badges}
+              />
             ))}
           </div>
           {creatorCourses.length === 0 && (

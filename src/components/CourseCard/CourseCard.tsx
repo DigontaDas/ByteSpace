@@ -1,6 +1,8 @@
+import Link from "next/link";
 import styles from "./CourseCard.module.css";
 
 export interface CourseCardProps {
+  id?: string;
   title: string;
   author: string;
   rating: number;
@@ -15,6 +17,7 @@ export interface CourseCardProps {
 }
 
 export default function CourseCard({
+  id,
   title,
   author,
   rating,
@@ -24,20 +27,28 @@ export default function CourseCard({
   level,
   badges,
 }: CourseCardProps) {
+  const courseSlug =
+    id ||
+    title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)+/g, "");
+
   return (
-    <div className={styles.card}>
-      <div className={styles.imageWrapper}>
-        <img src={image} alt={title} className={styles.image} />
-        {badges && badges.length > 0 && (
-          <div className={styles.badges}>
-            {badges.map((badge, i) => (
-              <span key={i} className={styles.badge}>
-                {badge}
-              </span>
-            ))}
-          </div>
-        )}
-      </div>
+    <Link href={`/courses/${courseSlug}`} className={styles.cardLink}>
+      <div className={styles.card}>
+        <div className={styles.imageWrapper}>
+          <img src={image} alt={title} className={styles.image} />
+          {badges && badges.length > 0 && (
+            <div className={styles.badges}>
+              {badges.map((badge, i) => (
+                <span key={i} className={styles.badge}>
+                  {badge}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
 
       <div className={styles.content}>
         <h3 className={styles.title}>{title}</h3>
@@ -100,5 +111,6 @@ export default function CourseCard({
         </div>
       </div>
     </div>
+    </Link>
   );
 }

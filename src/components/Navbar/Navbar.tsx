@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useAuth } from "@/context/AuthContext";
 import styles from "./Navbar.module.css";
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { user, signOut, wishlistCourseIds } = useAuth();
 
   return (
     <nav className={styles.navbar}>
@@ -47,13 +49,40 @@ export default function Navbar() {
         </ul>
 
         <div className={styles.navActions}>
-          <Link href="/login" className={styles.signInLink}>
-            Sign In
-          </Link>
-          <Link href="/register" className={styles.joinBtn}>
-            Join Us
-          </Link>
-          <button className={styles.cartBtn} aria-label="Cart">
+          {user ? (
+            <div className={styles.userProfile}>
+              <div className={styles.userAvatar}>
+                {user.user_metadata?.full_name?.charAt(0).toUpperCase() ||
+                  user.email.charAt(0).toUpperCase()}
+              </div>
+              <span className={styles.userName}>
+                {user.user_metadata?.full_name || user.email.split("@")[0]}
+              </span>
+              <button
+                onClick={() => signOut()}
+                className={styles.signOutBtn}
+                title="Sign Out"
+              >
+                Sign Out
+              </button>
+            </div>
+          ) : (
+            <>
+              <Link href="/login" className={styles.signInLink}>
+                Sign In
+              </Link>
+              <Link href="/register" className={styles.joinBtn}>
+                Join Us
+              </Link>
+            </>
+          )}
+
+          <Link
+            href="/courses"
+            className={styles.cartBtn}
+            aria-label="Wishlist & Courses"
+            title="Saved & Courses"
+          >
             <svg
               width="20"
               height="20"
@@ -68,7 +97,12 @@ export default function Navbar() {
               <line x1="3" y1="6" x2="21" y2="6" />
               <path d="M16 10a4 4 0 01-8 0" />
             </svg>
-          </button>
+            {wishlistCourseIds.length > 0 && (
+              <span className={styles.cartBadge}>
+                {wishlistCourseIds.length}
+              </span>
+            )}
+          </Link>
         </div>
 
         <button
@@ -108,20 +142,39 @@ export default function Navbar() {
           Creators
         </Link>
         <div className={styles.mobileDivider} />
-        <Link
-          href="/login"
-          className={styles.mobileLink}
-          onClick={() => setMobileOpen(false)}
-        >
-          Sign In
-        </Link>
-        <Link
-          href="/register"
-          className={styles.mobileJoinBtn}
-          onClick={() => setMobileOpen(false)}
-        >
-          Join Us
-        </Link>
+        {user ? (
+          <div className={styles.mobileUserArea}>
+            <span className={styles.mobileGreeting}>
+              Logged in as {user.user_metadata?.full_name || user.email}
+            </span>
+            <button
+              onClick={() => {
+                signOut();
+                setMobileOpen(false);
+              }}
+              className={styles.mobileSignOutBtn}
+            >
+              Sign Out
+            </button>
+          </div>
+        ) : (
+          <>
+            <Link
+              href="/login"
+              className={styles.mobileLink}
+              onClick={() => setMobileOpen(false)}
+            >
+              Sign In
+            </Link>
+            <Link
+              href="/register"
+              className={styles.mobileJoinBtn}
+              onClick={() => setMobileOpen(false)}
+            >
+              Join Us
+            </Link>
+          </>
+        )}
       </div>
     </nav>
   );

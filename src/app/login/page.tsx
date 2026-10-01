@@ -2,16 +2,48 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 import styles from "./login.module.css";
 
 export default function LoginPage() {
+  const router = useRouter();
+  const { signIn, signInWithDemo } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle login logic
+    setErrorMessage("");
+    setSuccessMessage("");
+    setLoading(true);
+
+    const { error } = await signIn(email, password);
+
+    if (error) {
+      setErrorMessage(
+        error.message || "Invalid login credentials. Please check your email and password."
+      );
+      setLoading(false);
+    } else {
+      setSuccessMessage("Signed in successfully! Redirecting...");
+      setTimeout(() => {
+        router.push("/courses");
+      }, 1000);
+    }
+  };
+
+  const handleDemoLogin = async () => {
+    setLoading(true);
+    await signInWithDemo();
+    setSuccessMessage("Logged in as Demo User! Redirecting...");
+    setTimeout(() => {
+      router.push("/courses");
+    }, 800);
   };
 
   return (
@@ -88,6 +120,18 @@ export default function LoginPage() {
             <h1 className={styles.formTitle}>Welcome Back</h1>
           </div>
 
+          {errorMessage && (
+            <div className={styles.errorBanner}>
+              ⚠️ {errorMessage}
+            </div>
+          )}
+
+          {successMessage && (
+            <div className={styles.successBanner}>
+              ✓ {successMessage}
+            </div>
+          )}
+
           <form onSubmit={handleSubmit} className={styles.form}>
             <div className={styles.inputGroup}>
               <label htmlFor="login-email" className={styles.label}>
@@ -148,8 +192,21 @@ export default function LoginPage() {
               </div>
             </div>
 
-            <button type="submit" className={styles.submitBtn}>
-              Sign In
+            <button
+              type="submit"
+              disabled={loading}
+              className={styles.submitBtn}
+            >
+              {loading ? "Signing In..." : "Sign In"}
+            </button>
+
+            <button
+              type="button"
+              onClick={handleDemoLogin}
+              disabled={loading}
+              className={styles.demoLoginBtn}
+            >
+              ⚡ Instant Demo Sign-In
             </button>
           </form>
 

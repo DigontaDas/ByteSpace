@@ -1,58 +1,110 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Navbar from "@/components/Navbar/Navbar";
 import Footer from "@/components/Footer/Footer";
 import CourseCard from "@/components/CourseCard/CourseCard";
-import { courses, categories } from "@/data/courses";
+import { courses as allCourses, categories } from "@/data/courses";
 import styles from "./courses.module.css";
 
-export default function CoursesPage() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [activeCategory, setActiveCategory] = useState("Featured");
+function CoursesContent() {
+  const searchParams = useSearchParams();
+  const initialQuery = searchParams.get("q") || "";
+  const initialCategory = searchParams.get("category") || "Featured";
+
+  const [searchQuery, setSearchQuery] = useState(initialQuery);
+  const [activeCategory, setActiveCategory] = useState(initialCategory);
+  const [levelFilter, setLevelFilter] = useState("All");
   const [sortBy, setSortBy] = useState("Most relevant");
 
-  const filteredCourses = courses.filter((course) => {
+  useEffect(() => {
+    if (searchParams.get("q")) {
+      setSearchQuery(searchParams.get("q") || "");
+    }
+    if (searchParams.get("category")) {
+      setActiveCategory(searchParams.get("category") || "Featured");
+    }
+  }, [searchParams]);
+
+  // Filter courses
+  let filtered = allCourses.filter((course) => {
     const matchesSearch =
       searchQuery === "" ||
       course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      course.category.toLowerCase().includes(searchQuery.toLowerCase());
+      course.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      course.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      course.author.toLowerCase().includes(searchQuery.toLowerCase());
+
     const matchesCategory =
-      activeCategory === "Featured" || course.category === activeCategory;
-    return matchesSearch && matchesCategory;
+      activeCategory === "Featured" ||
+      course.category.toLowerCase() === activeCategory.toLowerCase();
+
+    const matchesLevel =
+      levelFilter === "All" || course.level === levelFilter;
+
+    return matchesSearch && matchesCategory && matchesLevel;
   });
 
-  // Duplicate courses to fill the grid like in the Figma design
-  const displayCourses = [...filteredCourses, ...filteredCourses, ...filteredCourses];
+  // Sort courses
+  if (sortBy === "Price: Low to High") {
+    filtered = [...filtered].sort((a, b) => a.price - b.price);
+  } else if (sortBy === "Price: High to Low") {
+    filtered = [...filtered].sort((a, b) => b.price - a.price);
+  } else if (sortBy === "Highest Rated") {
+    filtered = [...filtered].sort((a, b) => b.rating - a.rating);
+  }
+
+  // Multiply grid for visual completeness if not searching
+  const displayCourses =
+    searchQuery || activeCategory !== "Featured" || levelFilter !== "All"
+      ? filtered
+      : [...filtered, ...filtered, ...filtered];
 
   return (
     <>
-      <Navbar />
-
       {/* Blue Hero Header */}
       <section className={styles.heroHeader}>
         <div className="container">
           <h1 className={styles.heroTitle}>Find Your Next Course</h1>
           <div className={styles.searchRow}>
             <div className={styles.searchBar}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
                 <circle cx="11" cy="11" r="8" />
                 <path d="m21 21-4.35-4.35" />
               </svg>
               <input
                 type="text"
-                placeholder="Search..."
+                placeholder="Search by topic, skill, creator..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className={styles.searchInput}
               />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery("")}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    padding: "0 8px",
+                    color: "#888",
+                  }}
+                >
+                  ✕
+                </button>
+              )}
             </div>
             <button className={styles.coursesBtn}>
-              Courses
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <path d="m6 9 6 6 6-6" />
-              </svg>
+              {displayCourses.length} Courses
             </button>
           </div>
         </div>
@@ -63,37 +115,48 @@ export default function CoursesPage() {
         <div className="container">
           <div className={styles.filterBar}>
             <div className={styles.filterLeft}>
-              <button className={styles.filterBtn}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <line x1="4" y1="6" x2="20" y2="6" />
-                  <line x1="8" y1="12" x2="16" y2="12" />
-                  <line x1="11" y1="18" x2="13" y2="18" />
-                </svg>
-                Filter
-              </button>
-              <button className={styles.filterBtn}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M3 6h18M3 12h18M3 18h18" />
-                </svg>
-                Level
-              </button>
-              <button className={styles.filterBtn}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <rect x="3" y="3" width="7" height="7" />
-                  <rect x="14" y="3" width="7" height="7" />
-                  <rect x="3" y="14" width="7" height="7" />
-                  <rect x="14" y="14" width="7" height="7" />
-                </svg>
-                Category
-              </button>
+              {/* Level Dropdown */}
+              <select
+                value={levelFilter}
+                onChange={(e) => setLevelFilter(e.target.value)}
+                className={styles.filterBtn}
+                style={{ cursor: "pointer", appearance: "auto" }}
+              >
+                <option value="All">Level: All</option>
+                <option value="Beginner">Level: Beginner</option>
+                <option value="Intermediate">Level: Intermediate</option>
+                <option value="Advanced">Level: Advanced</option>
+              </select>
+
+              {/* Reset filter button if active */}
+              {(searchQuery || activeCategory !== "Featured" || levelFilter !== "All") && (
+                <button
+                  onClick={() => {
+                    setSearchQuery("");
+                    setActiveCategory("Featured");
+                    setLevelFilter("All");
+                    setSortBy("Most relevant");
+                  }}
+                  className={styles.filterBtn}
+                  style={{ color: "#ff4757", borderColor: "#ff4757" }}
+                >
+                  Clear Filters ✕
+                </button>
+              )}
             </div>
+
             <div className={styles.filterRight}>
-              <button className={styles.sortBtn}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M3 6h18M3 12h12M3 18h6" />
-                </svg>
-                {sortBy}
-              </button>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className={styles.sortBtn}
+                style={{ cursor: "pointer", appearance: "auto" }}
+              >
+                <option value="Most relevant">Sort: Most relevant</option>
+                <option value="Highest Rated">Sort: Highest Rated</option>
+                <option value="Price: Low to High">Sort: Price Low to High</option>
+                <option value="Price: High to Low">Sort: Price High to Low</option>
+              </select>
             </div>
           </div>
 
@@ -102,7 +165,11 @@ export default function CoursesPage() {
             {categories.slice(0, 10).map((cat) => (
               <button
                 key={cat}
-                className={`${styles.categoryTag} ${activeCategory === cat ? styles.categoryActive : ""}`}
+                className={`${styles.categoryTag} ${
+                  activeCategory.toLowerCase() === cat.toLowerCase()
+                    ? styles.categoryActive
+                    : ""
+                }`}
                 onClick={() => setActiveCategory(cat)}
               >
                 {cat}
@@ -115,10 +182,43 @@ export default function CoursesPage() {
       {/* Course Grid */}
       <section className={styles.courseSection}>
         <div className="container">
-          <div className={styles.courseGrid}>
-            {displayCourses.map((course, idx) => (
-              <Link key={`${course.id}-${idx}`} href={`/courses/${course.id}`} className={styles.courseLink}>
+          {displayCourses.length === 0 ? (
+            <div
+              style={{
+                textAlign: "center",
+                padding: "60px 20px",
+                color: "var(--gray-600)",
+              }}
+            >
+              <h3 style={{ fontSize: "1.4rem", marginBottom: "8px" }}>
+                No courses found
+              </h3>
+              <p style={{ marginBottom: "16px" }}>
+                Try adjusting your search query or selecting a different category.
+              </p>
+              <button
+                onClick={() => {
+                  setSearchQuery("");
+                  setActiveCategory("Featured");
+                  setLevelFilter("All");
+                }}
+                style={{
+                  background: "var(--blue-primary)",
+                  color: "#fff",
+                  padding: "10px 20px",
+                  borderRadius: "20px",
+                  cursor: "pointer",
+                }}
+              >
+                Reset All Filters
+              </button>
+            </div>
+          ) : (
+            <div className={styles.courseGrid}>
+              {displayCourses.map((course, idx) => (
                 <CourseCard
+                  key={`${course.id}-${idx}`}
+                  id={course.id}
                   title={course.title}
                   author={course.author}
                   image={course.image}
@@ -128,12 +228,35 @@ export default function CoursesPage() {
                   level={course.level}
                   badges={course.badges}
                 />
-              </Link>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
+    </>
+  );
+}
 
+export default function CoursesPage() {
+  return (
+    <>
+      <Navbar />
+      <Suspense
+        fallback={
+          <div
+            style={{
+              minHeight: "60vh",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            Loading Courses...
+          </div>
+        }
+      >
+        <CoursesContent />
+      </Suspense>
       <Footer />
     </>
   );

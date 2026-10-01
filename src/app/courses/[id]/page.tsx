@@ -1,15 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
 import Navbar from "@/components/Navbar/Navbar";
 import Footer from "@/components/Footer/Footer";
 import { getCourseById } from "@/data/courses";
 import { getCreatorById } from "@/data/creators";
 import { getLessonsByCourseId } from "@/data/lessons";
-import { getReviewsByCourseId, getReviewSummaryByCourseId } from "@/data/reviews";
+import { getReviewsByCourseId, getReviewSummaryByCourseId, Review } from "@/data/reviews";
+import { useAuth } from "@/context/AuthContext";
 import styles from "./courseDetail.module.css";
 
 type TabType = "about" | "lessons" | "reviews";
@@ -18,12 +18,96 @@ export default function CourseDetailPage() {
   const params = useParams();
   const courseId = params.id as string;
   const [activeTab, setActiveTab] = useState<TabType>("about");
+  const { enrolledCourseIds, wishlistCourseIds, enrollCourse, toggleWishlist, user } = useAuth();
 
   const course = getCourseById(courseId);
   const creator = course ? getCreatorById(course.authorId) : undefined;
   const lessonData = getLessonsByCourseId(courseId);
-  const reviewsData = getReviewsByCourseId(courseId);
+  const initialReviews = getReviewsByCourseId(courseId);
   const reviewSummary = getReviewSummaryByCourseId(courseId);
+
+  // Interactive Reviews state
+  const [reviews, setReviews] = useState<Review[]>(initialReviews);
+  const [newReviewRating, setNewReviewRating] = useState(5);
+  const [newReviewAuthor, setNewReviewAuthor] = useState("");
+  const [newReviewText, setNewReviewText] = useState("");
+
+  // Interactive Lesson Completion state
+  const [completedModules, setCompletedModules] = useState<number[]>([]);
+
+  // Toast state
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  const showToast = (msg: string) => {
+    setToastMessage(msg);
+    setTimeout(() => setToastMessage(null), 3500);
+  };
+
+  const isEnrolled = enrolledCourseIds.includes(courseId);
+  const isWishlisted = wishlistCourseIds.includes(courseId);
+
+  const totalLessons = lessonData?.lessons?.length || 1;
+  const currentProgressPercent = Math.round((completedModules.length / totalLessons) * 100);
+
+  const handleToggleLesson = (moduleNumber: number) => {
+    setCompletedModules((prev) => {
+      if (prev.includes(moduleNumber)) {
+        return prev.filter((m) => m !== moduleNumber);
+      } else {
+        showToast(`Module ${moduleNumber} marked as completed! 🎯`);
+        return [...prev, moduleNumber];
+      }
+    });
+  };
+
+  const handleEnroll = () => {
+    if (isEnrolled) {
+      setActiveTab("lessons");
+      showToast("Opening course modules...");
+      return;
+    }
+    enrollCourse(courseId);
+    showToast("🎉 Successfully enrolled in course!");
+    setActiveTab("lessons");
+  };
+
+  const handleWishlist = () => {
+    const added = toggleWishlist(courseId);
+    if (added) {
+      showToast("❤️ Saved to your wishlist!");
+    } else {
+      showToast("Removed from wishlist.");
+    }
+  };
+
+  const handleShare = () => {
+    if (typeof window !== "undefined") {
+      navigator.clipboard.writeText(window.location.href);
+      showToast("🔗 Link copied to clipboard!");
+    }
+  };
+
+  const handleAddReview = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newReviewText.trim()) return;
+
+    const authorName = newReviewAuthor.trim() || user?.user_metadata?.full_name || "Enthusiastic Learner";
+    const newRev: Review = {
+      id: `rev-${Date.now()}`,
+      courseId,
+      authorName,
+      authorAvatar: authorName.charAt(0).toUpperCase(),
+      avatarColor: "hsl(220, 80%, 55%)",
+      rating: newReviewRating,
+      text: newReviewText.trim(),
+      date: "Just now",
+    };
+
+    setReviews([newRev, ...reviews]);
+    setNewReviewText("");
+    setNewReviewAuthor("");
+    showToast("🌟 Thank you! Your review was published.");
+  };
 
   if (!course) {
     return (
@@ -80,7 +164,7 @@ export default function CourseDetailPage() {
               {course.studentCount} Students
             </span>
           </div>
-          <button className={styles.shareBtn}>
+          <button onClick={handleShare} className={styles.shareBtn} title="Share course">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <circle cx="18" cy="5" r="3" />
               <circle cx="6" cy="12" r="3" />
@@ -92,6 +176,8 @@ export default function CourseDetailPage() {
           </button>
         </div>
       </section>
+
+      {toastMessage && <div className={styles.toast}>{toastMessage}</div>}
 
       {/* Main Content */}
       <section className={styles.mainContent}>
@@ -172,24 +258,38 @@ export default function CourseDetailPage() {
                       Immerse yourself in the course content as we break down each topic into comprehensive lessons, providing you with insights and hands-on experiences.
                     </p>
 
-                    <h4 className={styles.subHeading}>Lesson List</h4>
+                    <h4 className={styles.subHeading}>Lesson List (Click to track progress)</h4>
                     <div className={styles.lessonList}>
-                      {(lessonData?.lessons || []).map((lesson) => (
-                        <div key={lesson.moduleNumber} className={styles.lessonItem}>
-                          <div className={styles.lessonIcon}>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--yellow-accent)">
-                              <polygon points="5,3 19,12 5,21" />
-                            </svg>
+                      {(lessonData?.lessons || []).map((lesson) => {
+                        const isDone = completedModules.includes(lesson.moduleNumber);
+                        return (
+                          <div
+                            key={lesson.moduleNumber}
+                            onClick={() => handleToggleLesson(lesson.moduleNumber)}
+                            className={`${styles.lessonItem} ${styles.lessonItemClickable}`}
+                          >
+                            <div
+                              className={`${styles.lessonCheckmark} ${
+                                isDone ? styles.lessonCheckmarkCompleted : ""
+                              }`}
+                            >
+                              {isDone ? "✓" : ""}
+                            </div>
+                            <div className={styles.lessonIcon}>
+                              <svg width="20" height="20" viewBox="0 0 24 24" fill={isDone ? "#00E676" : "var(--yellow-accent)"}>
+                                <polygon points="5,3 19,12 5,21" />
+                              </svg>
+                            </div>
+                            <div className={styles.lessonInfo}>
+                              <h5 className={styles.lessonTitle}>
+                                Module {lesson.moduleNumber}: {lesson.title} {isDone && "(Completed)"}
+                              </h5>
+                              <p className={styles.lessonDesc}>{lesson.description}</p>
+                            </div>
+                            <span className={styles.lessonDuration}>{lesson.duration}</span>
                           </div>
-                          <div className={styles.lessonInfo}>
-                            <h5 className={styles.lessonTitle}>
-                              Module {lesson.moduleNumber}: {lesson.title}
-                            </h5>
-                            <p className={styles.lessonDesc}>{lesson.description}</p>
-                          </div>
-                          <span className={styles.lessonDuration}>{lesson.duration}</span>
-                        </div>
-                      ))}
+                        );
+                      })}
                       {(!lessonData || lessonData.lessons.length === 0) && (
                         <p className={styles.descText}>Lesson details coming soon.</p>
                       )}
@@ -205,12 +305,14 @@ export default function CourseDetailPage() {
                       {lessonData?.progressTracking || "Track your progress as you complete each module."}
                     </p>
                     <div className={styles.progressCard}>
-                      <span className={styles.progressLabel}>Learning Progress</span>
-                      <span className={styles.progressPercent}>{lessonData?.currentProgress || 0}%</span>
+                      <span className={styles.progressLabel}>
+                        Learning Progress ({completedModules.length} of {totalLessons} completed)
+                      </span>
+                      <span className={styles.progressPercent}>{currentProgressPercent}%</span>
                       <div className={styles.progressBar}>
                         <div
                           className={styles.progressFill}
-                          style={{ width: `${lessonData?.currentProgress || 0}%` }}
+                          style={{ width: `${currentProgressPercent}%` }}
                         />
                       </div>
                     </div>
@@ -233,10 +335,48 @@ export default function CourseDetailPage() {
                       </div>
                     </div>
 
+                    {/* Write Review Form */}
+                    <div className={styles.reviewFormContainer}>
+                      <h4 className={styles.reviewFormTitle}>Leave a Review</h4>
+                      <form onSubmit={handleAddReview}>
+                        <div className={styles.starRatingPicker}>
+                          {[1, 2, 3, 4, 5].map((star) => (
+                            <button
+                              key={star}
+                              type="button"
+                              onClick={() => setNewReviewRating(star)}
+                              className={`${styles.starPickBtn} ${
+                                star <= newReviewRating ? styles.starPickActive : ""
+                              }`}
+                            >
+                              ★
+                            </button>
+                          ))}
+                        </div>
+                        <input
+                          type="text"
+                          placeholder="Your Name (optional)"
+                          value={newReviewAuthor}
+                          onChange={(e) => setNewReviewAuthor(e.target.value)}
+                          className={styles.reviewInput}
+                        />
+                        <textarea
+                          placeholder="Share your experience with this course..."
+                          value={newReviewText}
+                          onChange={(e) => setNewReviewText(e.target.value)}
+                          className={styles.reviewTextarea}
+                          required
+                        />
+                        <button type="submit" className={styles.submitReviewBtn}>
+                          Post Review
+                        </button>
+                      </form>
+                    </div>
+
                     {/* Individual Reviews */}
-                    <h4 className={styles.subHeading}>Individual Reviews</h4>
+                    <h4 className={styles.subHeading}>Individual Reviews ({reviews.length})</h4>
                     <div className={styles.reviewList}>
-                      {reviewsData.map((review) => (
+                      {reviews.map((review) => (
                         <div key={review.id} className={styles.reviewCard}>
                           <div className={styles.reviewHeader}>
                             <div
@@ -254,7 +394,7 @@ export default function CourseDetailPage() {
                           <p className={styles.reviewText}>{review.text}</p>
                         </div>
                       ))}
-                      {reviewsData.length === 0 && (
+                      {reviews.length === 0 && (
                         <p className={styles.descText}>No reviews yet. Be the first to review this course!</p>
                       )}
                     </div>
@@ -293,7 +433,18 @@ export default function CourseDetailPage() {
                     <span className={styles.originalPrice}>${course.originalPrice}</span>
                   )}
                 </div>
-                <button className={styles.enrollBtn}>Enroll Now</button>
+                <button
+                  onClick={handleEnroll}
+                  className={`${styles.enrollBtn} ${isEnrolled ? styles.enrolledActive : ""}`}
+                >
+                  {isEnrolled ? "✓ Enrolled in Course" : "Enroll Now"}
+                </button>
+                <button
+                  onClick={handleWishlist}
+                  className={`${styles.wishlistBtn} ${isWishlisted ? styles.wishlistBtnActive : ""}`}
+                >
+                  {isWishlisted ? "❤️ Saved in Wishlist" : "♡ Save to Wishlist"}
+                </button>
 
                 {/* Includes */}
                 <div className={styles.includesSection}>

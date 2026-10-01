@@ -2,17 +2,45 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 import styles from "../login/login.module.css";
 
 export default function RegisterPage() {
+  const router = useRouter();
+  const { signUp } = useAuth();
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle register logic
+    setErrorMessage("");
+    setSuccessMessage("");
+
+    if (password.length < 6) {
+      setErrorMessage("Password must be at least 6 characters long.");
+      return;
+    }
+
+    setLoading(true);
+    const { error } = await signUp(email, password, fullName);
+
+    if (error) {
+      setErrorMessage(error.message || "Failed to create account. Please try again.");
+      setLoading(false);
+    } else {
+      setSuccessMessage(
+        "Account created successfully! Check your email or sign in now."
+      );
+      setTimeout(() => {
+        router.push("/courses");
+      }, 1200);
+    }
   };
 
   return (
@@ -94,6 +122,18 @@ export default function RegisterPage() {
             </h1>
           </div>
 
+          {errorMessage && (
+            <div className={styles.errorBanner}>
+              ⚠️ {errorMessage}
+            </div>
+          )}
+
+          {successMessage && (
+            <div className={styles.successBanner}>
+              ✓ {successMessage}
+            </div>
+          )}
+
           <form onSubmit={handleSubmit} className={styles.form}>
             <div className={styles.inputGroup}>
               <label htmlFor="register-name" className={styles.label}>
@@ -169,8 +209,12 @@ export default function RegisterPage() {
               </div>
             </div>
 
-            <button type="submit" className={styles.submitBtn}>
-              Continue
+            <button
+              type="submit"
+              disabled={loading}
+              className={styles.submitBtn}
+            >
+              {loading ? "Creating Account..." : "Continue"}
             </button>
           </form>
 

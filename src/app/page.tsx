@@ -1,6 +1,13 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 import Navbar from "@/components/Navbar/Navbar";
 import Footer from "@/components/Footer/Footer";
 import CourseCard from "@/components/CourseCard/CourseCard";
+import Hero3DScene from "@/components/ThreeScene/Hero3DScene";
+import { courses as allCoursesData } from "@/data/courses";
 import styles from "./page.module.css";
 
 const categories = [
@@ -169,6 +176,29 @@ const testimonials = [
 ];
 
 export default function Home() {
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [activeCategory, setActiveCategory] = useState("Featured");
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/courses?q=${encodeURIComponent(searchQuery.trim())}`);
+    } else {
+      router.push("/courses");
+    }
+  };
+
+  const displayedCourses =
+    activeCategory === "Featured"
+      ? allCoursesData
+      : allCoursesData.filter(
+          (c) =>
+            c.category.toLowerCase().includes(activeCategory.toLowerCase()) ||
+            activeCategory.toLowerCase().includes(c.category.toLowerCase()) ||
+            c.title.toLowerCase().includes(activeCategory.toLowerCase())
+        );
+
   return (
     <>
       <Navbar />
@@ -176,6 +206,7 @@ export default function Home() {
       <main>
         {/* ===== HERO SECTION ===== */}
         <section className={styles.hero}>
+          <Hero3DScene />
           <div className={styles.heroDecorations}>
             <div className={styles.decoCircle1} />
             <div className={styles.decoCircle2} />
@@ -193,7 +224,7 @@ export default function Home() {
                 Unlock your creativity, gain valuable knowledge, and grow your
                 business with our wide range of courses.
               </p>
-              <div className={styles.searchBar}>
+              <form onSubmit={handleSearch} className={styles.searchBar}>
                 <svg
                   className={styles.searchIcon}
                   width="20"
@@ -209,10 +240,12 @@ export default function Home() {
                 <input
                   type="text"
                   placeholder="Course, topic, creator"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                   className={styles.searchInput}
                 />
-                <button className={styles.searchBtn}>Search</button>
-              </div>
+                <button type="submit" className={styles.searchBtn}>Search</button>
+              </form>
             </div>
 
             <div className={styles.heroImageWrapper}>
@@ -298,21 +331,37 @@ export default function Home() {
             </div>
 
             <div className={styles.categoryTags}>
-              {categories.map((cat, i) => (
+              {categories.map((cat) => (
                 <button
                   key={cat}
-                  className={`${styles.categoryTag} ${i === 0 ? styles.categoryActive : ""}`}
+                  onClick={() => setActiveCategory(cat)}
+                  className={`${styles.categoryTag} ${activeCategory === cat ? styles.categoryActive : ""}`}
                 >
                   {cat}
                 </button>
               ))}
-              <button className={styles.categoryMore}>+ More</button>
+              <Link href="/courses" className={styles.categoryMore}>
+                + More
+              </Link>
             </div>
 
             <div className={styles.courseGrid}>
-              {courses.map((course, i) => (
-                <CourseCard key={i} {...course} />
-              ))}
+              {(displayedCourses.length > 0 ? displayedCourses : allCoursesData).map(
+                (course) => (
+                  <CourseCard
+                    key={course.id}
+                    id={course.id}
+                    title={course.title}
+                    author={course.author}
+                    rating={course.rating}
+                    price={course.price}
+                    originalPrice={course.originalPrice}
+                    image={course.image}
+                    level={course.level}
+                    badges={course.badges}
+                  />
+                )
+              )}
             </div>
           </div>
         </section>

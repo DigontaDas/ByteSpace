@@ -686,3 +686,178 @@
     grid-template-columns: 1fr 1fr;
   }
 }
+
+/* Toast message */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--gray-900);
+  color: var(--white);
+  padding: 12px 20px;
+  border-radius: var(--radius-full);
+  font-size: 0.9rem;
+  font-weight: 500;
+  box-shadow: var(--shadow-xl);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(212, 255, 0, 0.4);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Wishlist button */
+.wishlistBtn {
+  width: 100%;
+  margin-top: 10px;
+  background: var(--white);
+  color: var(--gray-700);
+  border: 1.5px solid var(--gray-300);
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.wishlistBtn:hover {
+  border-color: #ff4757;
+  color: #ff4757;
+  background: #fff5f5;
+}
+
+.wishlistBtnActive {
+  border-color: #ff4757 !important;
+  color: #ff4757 !important;
+  background: #fff5f5 !important;
+}
+
+.enrolledActive {
+  background: #00e676 !important;
+  color: #0d0d3b !important;
+}
+
+/* Interactive Lesson items */
+.lessonItemClickable {
+  cursor: pointer;
+  transition: background var(--transition-fast), transform var(--transition-fast);
+}
+
+.lessonItemClickable:hover {
+  background: var(--gray-50);
+  transform: translateX(4px);
+}
+
+.lessonCheckmark {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--gray-300);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+}
+
+.lessonCheckmarkCompleted {
+  background: var(--blue-primary);
+  border-color: var(--blue-primary);
+  color: var(--yellow-accent);
+}
+
+/* Add Review Form */
+.reviewFormContainer {
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  margin-bottom: 32px;
+}
+
+.reviewFormTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--gray-800);
+}
+
+.starRatingPicker {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.starPickBtn {
+  background: none;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--gray-300);
+  cursor: pointer;
+  padding: 2px;
+  transition: transform 0.15s ease;
+}
+
+.starPickBtn:hover {
+  transform: scale(1.2);
+}
+
+.starPickActive {
+  color: #ffb800;
+}
+
+.reviewInput {
+  width: 100%;
+  background: var(--white);
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 0.88rem;
+  margin-bottom: 12px;
+}
+
+.reviewTextarea {
+  width: 100%;
+  background: var(--white);
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 0.88rem;
+  min-height: 80px;
+  resize: vertical;
+  margin-bottom: 14px;
+}
+
+.submitReviewBtn {
+  background: var(--blue-primary);
+  color: var(--white);
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.submitReviewBtn:hover {
+  background: var(--blue-dark);
+}
+
