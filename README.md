@@ -2,7 +2,6 @@
 
 A modern, production-grade online course platform built with **Next.js 16 (App Router)**, **TypeScript**, **Three.js**, **Supabase**, and **Vanilla CSS Modules**.
 
-![ByteSpace Landing Page](/figma%20design/home.png)
 
 ## 🚀 Live Demo & Links
 
