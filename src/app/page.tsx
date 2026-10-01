@@ -7,29 +7,8 @@ import Navbar from "@/components/Navbar/Navbar";
 import Footer from "@/components/Footer/Footer";
 import CourseCard from "@/components/CourseCard/CourseCard";
 import Hero3DScene from "@/components/ThreeScene/Hero3DScene";
-import { courses as allCoursesData } from "@/data/courses";
+import { courses as allCoursesData, categories } from "@/data/courses";
 import styles from "./page.module.css";
-
-const categories = [
-  "Featured",
-  "Music",
-  "Drawing & Painting",
-  "Marketing",
-  "Animation",
-  "Social Media",
-  "UI/UX Design",
-  "Creative Marketing",
-  "Digital Illustration",
-  "Film & Video",
-  "Crafts",
-  "Freelance & Entrepreneurship",
-  "Graphic Design",
-  "Photography",
-  "Productivity",
-  "Web Development",
-  "Data Science",
-  "Cooking",
-];
 
 const SPONSORS = [
   {
@@ -166,63 +145,6 @@ const SPONSORS = [
   },
 ];
 
-const courses = [
-  {
-    title: "Learn Figma from Basic",
-    author: "purePearl studio",
-    rating: 4.5,
-    price: 25,
-    originalPrice: 50,
-    image: "/images/course-figma.jpg",
-    level: "Beginner",
-  },
-  {
-    title: "Build Digital Asset",
-    author: "purePearl studio",
-    rating: 4.5,
-    price: 25,
-    originalPrice: 50,
-    image: "/images/course-digital-asset.jpg",
-    level: "Beginner",
-    badges: ["15 Lessons", "8 Quizzes", "3 Downloads"],
-  },
-  {
-    title: "The Power of Big Data",
-    author: "LearnerFreaks",
-    rating: 4.5,
-    price: 25,
-    originalPrice: 50,
-    image: "/images/course-big-data.jpg",
-    level: "Beginner",
-  },
-  {
-    title: "Balancing Productivity an...",
-    author: "productiveMind",
-    rating: 4.5,
-    price: 25,
-    originalPrice: 50,
-    image: "/images/course-productivity.jpg",
-    level: "Beginner",
-  },
-  {
-    title: "Mastering Money Manage...",
-    author: "purePearl studio",
-    rating: 4.5,
-    price: 25,
-    originalPrice: 50,
-    image: "/images/course-money.jpg",
-    level: "Beginner",
-  },
-  {
-    title: "From Idea to Startup Succ...",
-    author: "purePearl studio",
-    rating: 4.5,
-    price: 25,
-    originalPrice: 50,
-    image: "/images/course-startup.jpg",
-    level: "Beginner",
-  },
-];
 
 const learningPaths = [
   {
