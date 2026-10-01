@@ -12,10 +12,10 @@ export const creators: Creator[] = [
   {
     id: "purepearl-studio",
     name: "PurePearl Studio",
-    avatar: "/images/creator-section.jpg",
-    role: "Passionate UI/UX, Web Designer",
+    avatar: "/images/creator-purepearl.jpg",
+    role: "Passionate UI/UX, Web designer",
     bio: "Welcome to the creative world of PurePearl Studio. Here, you'll discover the passion, expertise, and inspiration that drive my creative journey. Let's explore and learn together!\n\nDive into my creative portfolio, showcasing a glimpse of my artistic endeavors. From digital designs to multimedia projects, each piece tells a unique story. Explore the world of creativity with me.",
-    productCount: 5,
+    productCount: 3,
     followerCount: 12,
   },
   {
@@ -30,7 +30,7 @@ export const creators: Creator[] = [
   {
     id: "productivemind",
     name: "ProductiveMind",
-    avatar: "/images/creator-section.jpg",
+    avatar: "/images/creator-purepearl.jpg",
     role: "Productivity Coach",
     bio: "Helping professionals achieve peak productivity while maintaining balance and wellness. Our courses combine scientific research with practical techniques.",
     productCount: 2,
@@ -38,6 +38,13 @@ export const creators: Creator[] = [
   },
 ];
 
-export function getCreatorById(id: string): Creator | undefined {
-  return creators.find((c) => c.id === id);
+export function getCreatorById(id?: string): Creator {
+  if (!id) return creators[0];
+  const normalized = decodeURIComponent(id).toLowerCase().replace(/[^a-z0-9]/g, "");
+  const found = creators.find(
+    (c) =>
+      c.id.toLowerCase().replace(/[^a-z0-9]/g, "") === normalized ||
+      c.name.toLowerCase().replace(/[^a-z0-9]/g, "") === normalized
+  );
+  return found || creators[0];
 }

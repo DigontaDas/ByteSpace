@@ -523,7 +523,9 @@ export default function Home() {
                 community comprising over 10,000 local and international
                 creators.
               </p>
-              <button className={styles.ctaBtn}>Join as Creator</button>
+              <Link href="/creators" className={styles.ctaBtn}>
+                Join as Creator
+              </Link>
             </div>
           </div>
         </section>

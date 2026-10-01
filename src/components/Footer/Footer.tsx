@@ -64,12 +64,16 @@ export default function Footer() {
             </div>
 
             <div className={styles.linkColumn}>
-              <h4 className={styles.columnTitle}>Become a Creator</h4>
+              <h4 className={styles.columnTitle}>
+                <Link href="/creators" style={{ color: "inherit" }}>
+                  Become a Creator
+                </Link>
+              </h4>
               <ul>
-                <li><Link href="#">Affiliate Program</Link></li>
-                <li><Link href="#">Contact</Link></li>
-                <li><Link href="#">Help</Link></li>
-                <li><Link href="#">About</Link></li>
+                <li><Link href="/creators">PurePearl Studio</Link></li>
+                <li><Link href="/creators">Affiliate Program</Link></li>
+                <li><Link href="/register">Join Community</Link></li>
+                <li><Link href="#">Help & Support</Link></li>
               </ul>
             </div>
           </div>

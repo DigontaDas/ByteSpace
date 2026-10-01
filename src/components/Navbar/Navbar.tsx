@@ -42,7 +42,7 @@ export default function Navbar() {
             </Link>
           </li>
           <li>
-            <Link href="/creators/purepearl-studio" className={styles.navLink}>
+            <Link href="/creators" className={styles.navLink}>
               Creators
             </Link>
           </li>
@@ -135,7 +135,7 @@ export default function Navbar() {
           Courses
         </Link>
         <Link
-          href="/creators/purepearl-studio"
+          href="/creators"
           className={styles.mobileLink}
           onClick={() => setMobileOpen(false)}
         >
